@@ -63,7 +63,7 @@ export const SplashScreenAnimation = () => {
         easing: Easing.bezier(0.9, 0.21, 0.86, 0.63),
         reduceMotion: ReduceMotion.System,
       });
-    }, 800);
+    }, 500);
 
     return () => clearTimeout(largeLogoTimeout);
   });

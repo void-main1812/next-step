@@ -25,8 +25,10 @@ const Loading = ({ navigation }: any) => {
   return (
     <>
       <Container statusBarColor="transparent">
-        <View style={styles.container}>
-          <Animated.View style={[styles.logoContainer, animatedLogoBackground]}>
+        <Animated.View sharedTransitionTag="titleContainer01" style={styles.container}>
+          <Animated.View
+            sharedTransitionTag="logoContainer01"
+            style={[styles.logoContainer, animatedLogoBackground]}>
             <Animated.View style={animatedLogo}>
               <Ionicons
                 name="briefcase"
@@ -36,10 +38,12 @@ const Loading = ({ navigation }: any) => {
               />
             </Animated.View>
           </Animated.View>
-          <Animated.Text style={[typographyStyles(theme).heading_2, animatedText]}>
+          <Animated.Text
+            sharedTransitionTag="logoText01"
+            style={[typographyStyles(theme).heading_2, animatedText]}>
             Next Step
           </Animated.Text>
-        </View>
+        </Animated.View>
         <Animated.View style={[styles.loadingContainer, animatedLoadingContainer]}>
           <ActivityIndicator size="small" color={theme.components.Icons.normal.color} />
           <Text style={typographyStyles(theme).special}>Loading...</Text>

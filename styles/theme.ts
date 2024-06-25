@@ -112,6 +112,11 @@ export const lightTheme = {
       backgroundColor: colors.Neutral[200],
       shadoColor: colors.Neutral[600],
     },
+
+    // ANCHOR Style for Saperator component
+    Saperator: {
+      backgroundColor: colors.Neutral[400],
+    },
   },
   margins: {},
 } as const;
@@ -227,6 +232,11 @@ export const darkTheme = {
     LoadingBar: {
       backgroundColor: colors.Neutral[900],
       shadoColor: 'transparent',
+    },
+
+    // ANCHOR Style for Saperator component
+    Saperator: {
+      backgroundColor: colors.Neutral[600],
     },
   },
   margins: {},

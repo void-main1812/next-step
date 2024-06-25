@@ -9,7 +9,7 @@ export const typographyStyles = createStyleSheet((theme) => ({
   },
   heading_1: {
     fontSize: spacing.height[9],
-    fontFamily: 'ClashDisplay-Medium',
+    fontFamily: 'ClashDisplay-Semibold',
     color: theme.components.Text.heading_1,
   },
   heading_2: {

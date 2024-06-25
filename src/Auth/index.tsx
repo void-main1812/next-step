@@ -1,18 +1,23 @@
-import { View, Text } from 'react-native';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { typographyStyles } from 'styles/typography';
-import { useStyles } from 'react-native-unistyles';
-import Container from 'components/Container';
+import Login from './login';
+
+export type RootStackParamList = {
+  Login: undefined;
+  SignUpOptions: undefined;
+  Signup: undefined;
+  RapidApi: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 const AuthNavigator = () => {
-  const { theme } = useStyles();
-
   return (
-    <Container>
-      <View>
-        <Text style={typographyStyles(theme).heading_1}>AuthNavigator</Text>
-      </View>
-    </Container>
+    <Stack.Navigator
+      screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
+      initialRouteName="Login">
+      <Stack.Screen name="Login" options={{ headerShown: false }} component={Login} />
+    </Stack.Navigator>
   );
 };
 
