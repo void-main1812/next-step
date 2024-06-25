@@ -8,14 +8,18 @@ import { height, width } from 'utils/Size';
 type containerProps = {
   children: ReactNode;
   scrollable?: boolean;
+  statusBarColor?: string;
 };
 
-const Container = ({ children, scrollable = false }: containerProps) => {
+const Container = ({ children, scrollable = false, statusBarColor }: containerProps) => {
   const { styles, theme } = useStyles(stylesheet);
 
   return (
     <>
-      <StatusBar style={'auto'} backgroundColor={theme.components.Statusbar.color} />
+      <StatusBar
+        style={'auto'}
+        backgroundColor={statusBarColor ? statusBarColor : theme.components.Statusbar.color}
+      />
       <View style={{ backgroundColor: theme.components.Background.color }}>
         <ScrollView scrollEnabled={scrollable} contentContainerStyle={styles.container}>
           {children}
