@@ -106,6 +106,12 @@ export const lightTheme = {
       titleColor: colors.Neutral[900],
       shadowColor: colors.Neutral[600],
     },
+
+    // ANCHOR Style for Loading Bar
+    LoadingBar: {
+      backgroundColor: colors.Neutral[200],
+      shadoColor: colors.Neutral[600],
+    },
   },
   margins: {},
 } as const;
@@ -215,6 +221,12 @@ export const darkTheme = {
       backgroundColor: colors.Neutral[800],
       titleColor: colors.Neutral[100],
       shadowColor: colors.Neutral[950],
+    },
+
+    // ANCHOR Style for Loading Bar
+    LoadingBar: {
+      backgroundColor: colors.Neutral[900],
+      shadoColor: 'transparent',
     },
   },
   margins: {},

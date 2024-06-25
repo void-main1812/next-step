@@ -15,7 +15,7 @@ export default function RootStack() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Loading">
         <Stack.Screen name="Auth" component={AuthNavigator} />
-        <Stack.Screen name="Loading" component={Loading} />
+        <Stack.Screen options={{ headerShown: false }} name="Loading" component={Loading} />
       </Stack.Navigator>
     </NavigationContainer>
   );
