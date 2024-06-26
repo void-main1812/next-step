@@ -1,28 +1,22 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Link } from '@react-navigation/native';
+import Button from 'components/Button';
 import Container from 'components/Container';
+import Saperator from 'components/Saperator';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
-import Animated from 'react-native-reanimated';
-import Button from 'components/Button';
-import Saperator from 'components/Saperator';
-import { Link } from '@react-navigation/native';
-import { BlurView } from '@react-native-community/blur';
 
-const SignUpOptions = () => {
+const SignUpOptions = ({ navigation }: any) => {
   const { theme, styles } = useStyles(styleSheet);
 
   return (
     <Container statusBarColor="transparent">
       <View style={styles.container}>
-        <BlurView
-          style={{ position: 'absolute', top: 150, right: 50 }}
-          blurType="dark"
-          blurAmount={20}
-        />
         <Animated.View sharedTransitionTag="appTitle" style={styles.appTitleContainer}>
           <View style={styles.logoContainer}>
             <Ionicons
@@ -39,7 +33,12 @@ const SignUpOptions = () => {
           <Text style={typographyStyles(theme).body}>Select a method to Register to Next-Step</Text>
         </View>
         <View style={styles.optionsContainer}>
-          <Button text="Email" leftIcon="mail" onPress={() => {}} size="full" />
+          <Button
+            text="Email"
+            leftIcon="mail"
+            onPress={() => navigation.push('Signup')}
+            size="full"
+          />
           <Saperator />
           <Button
             text="Google"
