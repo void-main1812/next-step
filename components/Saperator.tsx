@@ -3,13 +3,11 @@ import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { typographyStyles } from 'styles/typography';
 
-const Saperator = ({ text }: { text: string }) => {
+const Saperator = ({ text }: { text?: string }) => {
   const { styles } = useStyles(styleSheet);
 
   return (
-    <View style={styles.Saperator}>
-      <Text style={styles.SaperatorText}>{text}</Text>
-    </View>
+    <View style={styles.Saperator}>{text && <Text style={styles.SaperatorText}>{text}</Text>}</View>
   );
 };
 

@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Link } from '@react-navigation/native';
 import Button from 'components/Button';
 import Container from 'components/Container';
 import Input from 'components/Input';
@@ -10,6 +11,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
+import Animated from 'react-native-reanimated';
 
 const Login = () => {
   const { theme, styles } = useStyles(styleSheet);
@@ -19,7 +21,7 @@ const Login = () => {
       <Container scrollable={false} statusBarColor="transparent">
         <View style={styles.container}>
           <View>
-            <View style={styles.appTitleContainer}>
+            <Animated.View sharedTransitionTag="appTitle" style={styles.appTitleContainer}>
               <View style={styles.logoContainer}>
                 <Ionicons
                   name="briefcase"
@@ -29,7 +31,7 @@ const Login = () => {
                 />
               </View>
               <Text style={typographyStyles(theme).heading_2}>Next Step</Text>
-            </View>
+            </Animated.View>
           </View>
           <View style={styles.inputContainer}>
             <View style={styles.titleContainer}>
@@ -48,9 +50,13 @@ const Login = () => {
             <Button text="Login" size="full" rightIcon="arrow-forward" />
             <View style={styles.createAccountContainer}>
               <Text style={typographyStyles(theme).body}>Don't have an Account?</Text>
-              <Text style={[typographyStyles(theme).special, { textDecorationLine: 'underline' }]}>
-                Create One
-              </Text>
+              <Link to={'/SignUpOptions'}>
+                {' '}
+                <Text
+                  style={[typographyStyles(theme).special, { textDecorationLine: 'underline' }]}>
+                  Create One
+                </Text>
+              </Link>
             </View>
           </View>
           <Saperator text="or continue with" />
@@ -114,7 +120,7 @@ const styleSheet = createStyleSheet((theme) => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: spacing.height[4],
+    gap: height(1),
   },
 
   socialAuthButtonContainer: {

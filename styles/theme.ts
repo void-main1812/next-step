@@ -48,7 +48,7 @@ export const lightTheme = {
         rippleColor: colors.Neutral[600],
       },
       secondary: {
-        background: colors.Neutral[300],
+        background: colors.Neutral[200],
         textColor: colors.Neutral[900],
         rippleColor: colors.Neutral[500],
       },
@@ -169,7 +169,7 @@ export const darkTheme = {
         rippleColor: colors.Neutral[400],
       },
       secondary: {
-        background: colors.Neutral[700],
+        background: colors.Neutral[800],
         textColor: colors.Neutral[100],
         rippleColor: colors.Neutral[600],
       },
@@ -223,7 +223,7 @@ export const darkTheme = {
 
     // ANCHOR Style for DialogueBox component
     DialogueBox: {
-      backgroundColor: colors.Neutral[800],
+      backgroundColor: colors.Neutral[900],
       titleColor: colors.Neutral[100],
       shadowColor: colors.Neutral[950],
     },
