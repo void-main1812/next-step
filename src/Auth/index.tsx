@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import Login from './login';
 import SignUpOptions from './signup';
+import SignUp from './signup/SignUp';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -23,6 +24,7 @@ const AuthNavigator = () => {
         options={{ headerShown: false }}
         component={SignUpOptions}
       />
+      <Stack.Screen name="Signup" options={{ headerShown: false }} component={SignUp} />
     </Stack.Navigator>
   );
 };

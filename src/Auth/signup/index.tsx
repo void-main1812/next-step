@@ -11,7 +11,7 @@ import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
 
-const SignUpOptions = () => {
+const SignUpOptions = ({ navigation }: any) => {
   const { theme, styles } = useStyles(styleSheet);
 
   return (
@@ -33,7 +33,12 @@ const SignUpOptions = () => {
           <Text style={typographyStyles(theme).body}>Select a method to Register to Next-Step</Text>
         </View>
         <View style={styles.optionsContainer}>
-          <Button text="Email" leftIcon="mail" onPress={() => {}} size="full" />
+          <Button
+            text="Email"
+            leftIcon="mail"
+            onPress={() => navigation.push('Signup')}
+            size="full"
+          />
           <Saperator />
           <Button
             text="Google"

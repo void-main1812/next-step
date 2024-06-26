@@ -1,13 +1,13 @@
-import { View, Text, ActivityIndicator } from 'react-native';
-import React, { useEffect } from 'react';
-import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import Container from 'components/Container';
-import { typographyStyles } from 'styles/typography';
 import { Ionicons } from '@expo/vector-icons';
-import { spacing } from 'styles/spacing';
-import { height } from 'utils/Size';
 import { SplashScreenAnimation } from 'animations/SplashScreenAnimation';
+import Container from 'components/Container';
+import React, { useEffect } from 'react';
+import { ActivityIndicator, Text } from 'react-native';
 import Animated from 'react-native-reanimated';
+import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import { spacing } from 'styles/spacing';
+import { typographyStyles } from 'styles/typography';
+import { height } from 'utils/Size';
 
 const Loading = ({ navigation }: any) => {
   useEffect(() => {
