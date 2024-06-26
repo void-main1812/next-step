@@ -63,7 +63,7 @@ export const SplashScreenAnimation = () => {
         easing: Easing.bezier(0.9, 0.21, 0.86, 0.63),
         reduceMotion: ReduceMotion.System,
       });
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(largeLogoTimeout);
   });
@@ -80,7 +80,7 @@ export const SplashScreenAnimation = () => {
         easing: Easing.bezier(0.55, 0.55, 0.55, 0.55),
         reduceMotion: ReduceMotion.System,
       });
-    }, 1500);
+    }, 900);
 
     return () => clearTimeout(normalLogoTimeout);
   });
@@ -94,7 +94,7 @@ export const SplashScreenAnimation = () => {
         reduceMotion: ReduceMotion.System,
       });
       LogoBackgroundColor.value = theme.components.Icons.normal.background;
-    }, 1550);
+    }, 900);
 
     return () => clearTimeout(AnimateTextTimout);
   });
@@ -104,7 +104,7 @@ export const SplashScreenAnimation = () => {
       LoadingContainerOpacity.value = withTiming(1, { duration: 500 });
       LoadingContainerTransformY.value = withTiming(0, { duration: 500 });
       LoadingContainerScale.value = withTiming(1, { duration: 500 });
-    }, 1800);
+    }, 2000);
 
     return () => clearTimeout(logoContainerTimeout);
   });

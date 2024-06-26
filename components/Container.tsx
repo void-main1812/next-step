@@ -21,7 +21,10 @@ const Container = ({ children, scrollable = false, statusBarColor }: containerPr
         backgroundColor={statusBarColor ? statusBarColor : theme.components.Statusbar.color}
       />
       <View style={{ backgroundColor: theme.components.Background.color }}>
-        <ScrollView scrollEnabled={scrollable} contentContainerStyle={styles.container}>
+        <ScrollView
+          scrollEnabled={scrollable}
+          showsVerticalScrollIndicator={scrollable}
+          contentContainerStyle={styles.container}>
           {children}
         </ScrollView>
       </View>
