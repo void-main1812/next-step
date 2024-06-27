@@ -117,6 +117,10 @@ export const lightTheme = {
     Saperator: {
       backgroundColor: colors.Neutral[400],
     },
+
+    backdrop: {
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    },
   },
   margins: {},
 } as const;
@@ -237,6 +241,10 @@ export const darkTheme = {
     // ANCHOR Style for Saperator component
     Saperator: {
       backgroundColor: colors.Neutral[600],
+    },
+
+    backdrop: {
+      backgroundColor: 'rgba(255, 255, 255, 0.5)',
     },
   },
   margins: {},
