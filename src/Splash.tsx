@@ -9,7 +9,7 @@ import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height } from 'utils/Size';
 
-const Loading = ({ navigation }: any) => {
+const Splash = ({ navigation }: any) => {
   useEffect(() => {
     const navigateToHome = setTimeout(() => {
       navigation.replace('Auth');
@@ -53,7 +53,7 @@ const Loading = ({ navigation }: any) => {
   );
 };
 
-export default Loading;
+export default Splash;
 
 const StyleSheet = createStyleSheet((theme) => ({
   container: {

@@ -32,6 +32,11 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.sourabhs1812.nextstep"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "63e397d4-813e-4506-80b8-480cea764da5"
+      }
     }
   }
 }

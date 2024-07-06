@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Container from 'components/Container';
 import { Ionicons } from '@expo/vector-icons';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -15,6 +15,8 @@ const SignUpForm = (props: any) => {
   const { toggleSheet } = props;
 
   const { theme, styles } = useStyles(styleSheet);
+
+  const [isPasswordSecured, setIsPasswordSecured] = useState<boolean>(true);
 
   return (
     <Container statusBarColor="transparent">
@@ -34,13 +36,19 @@ const SignUpForm = (props: any) => {
         </View>
         <View style={styles.inputContainer}>
           <Input label="Name" placeholder="John Doe" leftIcon="person" />
-          <Input label="Your Email" placeholder="username@host.com" leftIcon="mail" />
+          <Input
+            keyboardType="email-address"
+            label="Your Email"
+            placeholder="username@host.com"
+            leftIcon="mail"
+          />
           <Input
             label="Create Password"
             placeholder="kaiWR#w2t"
             leftIcon="lock-closed"
-            rightIcon="eye"
-            secureTextEntry
+            rightIcon={isPasswordSecured ? 'eye' : 'eye-off'}
+            secureTextEntry={isPasswordSecured}
+            onRightIconPress={() => setIsPasswordSecured(!isPasswordSecured)}
           />
           <Text style={styles.generatePassword}>Generate Strong Password</Text>
           <Button

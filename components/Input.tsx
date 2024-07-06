@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { typographyStyles } from 'styles/typography';
 import { height } from 'utils/Size';
@@ -13,6 +13,14 @@ type InputProps = {
   placeholder?: string;
   onChangeText?: (text: string) => void;
   secureTextEntry?: boolean;
+  onRightIconPress?: () => void;
+  keyboardType?:
+    | 'default'
+    | 'number-pad'
+    | 'decimal-pad'
+    | 'numeric'
+    | 'email-address'
+    | 'phone-pad';
 };
 
 const Input = ({
@@ -22,6 +30,8 @@ const Input = ({
   placeholder = 'Placeholder',
   onChangeText,
   secureTextEntry = false,
+  onRightIconPress,
+  keyboardType = 'default',
 }: InputProps) => {
   // destructuring the theme and styles from the useStyles hook
   const { styles, theme } = useStyles(stylesheet);
@@ -38,12 +48,15 @@ const Input = ({
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
           style={styles.input}
+          keyboardType={keyboardType}
           placeholderTextColor={theme.components.Input.placeholderColor}
           onChangeText={onChangeText}
         />
         {/* Right-Icon */}
         {rightIcon && (
-          <Ionicons name={rightIcon} size={18} color={theme.components.Input.labelColor} />
+          <Pressable onPress={onRightIconPress}>
+            <Ionicons name={rightIcon} size={18} color={theme.components.Input.labelColor} />
+          </Pressable>
         )}
       </View>
     </View>
