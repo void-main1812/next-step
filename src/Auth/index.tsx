@@ -3,6 +3,7 @@ import React from 'react';
 import Login from './login';
 import SignUpOptions from './signup';
 import SignUp from './signup/SignUp';
+import RapidApi from './RapidApi';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -25,6 +26,7 @@ const AuthNavigator = () => {
         component={SignUpOptions}
       />
       <Stack.Screen name="Signup" options={{ headerShown: false }} component={SignUp} />
+      <Stack.Screen name="RapidApi" options={{ headerShown: false }} component={RapidApi} />
     </Stack.Navigator>
   );
 };

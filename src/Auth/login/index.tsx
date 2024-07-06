@@ -5,7 +5,7 @@ import Container from 'components/Container';
 import Input from 'components/Input';
 import Saperator from 'components/Saperator';
 import SocialAuthButton from 'components/SocialAuthButton';
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { spacing } from 'styles/spacing';
@@ -15,6 +15,8 @@ import Animated from 'react-native-reanimated';
 
 const Login = () => {
   const { theme, styles } = useStyles(styleSheet);
+
+  const [isPasswordSecured, setIsPasswordSecured] = useState<boolean>(true);
 
   return (
     <>
@@ -38,13 +40,19 @@ const Login = () => {
               <Text style={typographyStyles(theme).heading_1}>Welcome</Text>
               <Text style={typographyStyles(theme).body}>Please Login to Continue</Text>
             </View>
-            <Input label="Email" placeholder="johnDoe@gmail.com" leftIcon="mail" />
             <Input
-              secureTextEntry
+              label="Email"
+              keyboardType="email-address"
+              placeholder="johnDoe@gmail.com"
+              leftIcon="mail"
+            />
+            <Input
+              secureTextEntry={isPasswordSecured}
+              onRightIconPress={() => setIsPasswordSecured(!isPasswordSecured)}
               label="Password"
               placeholder="ki@K847S"
               leftIcon="lock-closed"
-              rightIcon="eye"
+              rightIcon={isPasswordSecured ? 'eye' : 'eye-off'}
             />
             <Text style={styles.forgotPasswordContainer}>Forgot Password</Text>
             <Button text="Login" size="full" rightIcon="arrow-forward" />

@@ -22,8 +22,12 @@ import Button from 'components/Button';
 
 const AnimatePressable = Animated.createAnimatedComponent(Pressable);
 
-const SignUp = () => {
+const SignUp = ({ navigation }: any) => {
   const { theme, styles } = useStyles(styleSheet);
+
+  const navigatieToApiOptions = () => {
+    navigation.navigate('RapidApi');
+  };
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -92,6 +96,7 @@ const SignUp = () => {
                         size="full"
                         enableRipple={true}
                         rightIcon="checkmark"
+                        onPress={navigatieToApiOptions}
                       />
                     </View>
                   </View>
