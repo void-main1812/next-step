@@ -11,12 +11,18 @@ import { typographyStyles } from 'styles/typography';
 import Input from 'components/Input';
 import Button from 'components/Button';
 
-const SignUpForm = (props: any) => {
-  const { toggleSheet } = props;
+type SignUpFormProps = {
+  onSignUpPress: () => void;
+  onEmailChange: (email: string) => void;
+  onPasswordChange: (password: string) => void;
+};
+
+const SignUpForm = ({onSignUpPress, onEmailChange, onPasswordChange}: SignUpFormProps) => {
 
   const { theme, styles } = useStyles(styleSheet);
 
   const [isPasswordSecured, setIsPasswordSecured] = useState<boolean>(true);
+  
 
   return (
     <Container statusBarColor="transparent">
@@ -35,12 +41,12 @@ const SignUpForm = (props: any) => {
           </Text>
         </View>
         <View style={styles.inputContainer}>
-          <Input label="Name" placeholder="John Doe" leftIcon="person" />
           <Input
             keyboardType="email-address"
             label="Your Email"
             placeholder="username@host.com"
             leftIcon="mail"
+            onChangeText={onEmailChange}
           />
           <Input
             label="Create Password"
@@ -49,13 +55,14 @@ const SignUpForm = (props: any) => {
             rightIcon={isPasswordSecured ? 'eye' : 'eye-off'}
             secureTextEntry={isPasswordSecured}
             onRightIconPress={() => setIsPasswordSecured(!isPasswordSecured)}
+            onChangeText={onPasswordChange}
           />
           <Text style={styles.generatePassword}>Generate Strong Password</Text>
           <Button
             text="Verify Email"
             size="full"
             rightIcon="shield-checkmark"
-            onPress={toggleSheet}
+            onPress={() => onSignUpPress()}
           />
         </View>
         <View style={styles.agreementTextContainer}>

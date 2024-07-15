@@ -19,15 +19,12 @@ import SignUpForm from './SignupForm';
 import { typographyStyles } from 'styles/typography';
 import Input from 'components/Input';
 import Button from 'components/Button';
+import { useSignUp } from '@clerk/clerk-expo';
 
 const AnimatePressable = Animated.createAnimatedComponent(Pressable);
 
 const SignUp = ({ navigation }: any) => {
   const { theme, styles } = useStyles(styleSheet);
-
-  const navigatieToApiOptions = () => {
-    navigation.navigate('RapidApi');
-  };
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -61,16 +58,69 @@ const SignUp = ({ navigation }: any) => {
 
   const AppTheme = UnistylesRuntime.themeName;
 
+  const { isLoaded, signUp, setActive } = useSignUp();
+
+  const [code, setCode] = React.useState('');
+  const [pendingVerification, setPendingVerification] = React.useState(false);
+  const [emailAddress, setEmailAddress] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const onSignUpPress = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      await signUp.create({
+        emailAddress,
+        password,
+      });
+
+      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+
+      setPendingVerification(true);
+    } catch (err: any) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2));
+    }
+  };
+
+  const onPressVerify = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code,
+      });
+
+      if (completeSignUp.status === 'complete') {
+        await setActive({ session: completeSignUp.createdSessionId });
+        navigation.replace('Home');
+      } else {
+        console.error(JSON.stringify(completeSignUp, null, 2));
+      }
+    } catch (err: any) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2));
+    }
+  };
+
   return (
     <GestureHandlerRootView>
-      <SignUpForm toggleSheet={toggleSheet} />
-      {isOpen && (
+      <SignUpForm onSignUpPress={onSignUpPress}
+        onEmailChange={(emailAddress) => setEmailAddress(emailAddress)}
+        onPasswordChange={(password) => setPassword(password)}
+      />
+      {pendingVerification && (
         <>
           <AnimatePressable
             style={styles.backdrop}
             entering={FadeIn}
-            exiting={FadeOut}
-            onPress={toggleSheet}>
+            exiting={FadeOut}>
             <GestureDetector gesture={Pan}>
               <Animated.View
                 style={[styles.sheet, translateY]}
@@ -90,13 +140,18 @@ const SignUp = ({ navigation }: any) => {
                       </Text>
                     </View>
                     <View style={{ width: '100%', gap: height(4) }}>
-                      <Input label="Enter OTP" placeholder="OTP" leftIcon="key" />
+                      <Input
+                        label="Enter OTP"
+                        placeholder="OTP"
+                        leftIcon="key"
+                        onChangeText={(code) => setCode(code)}
+                      />
                       <Button
                         text="Verify OTP"
                         size="full"
                         enableRipple={true}
                         rightIcon="checkmark"
-                        onPress={navigatieToApiOptions}
+                        onPress={onPressVerify}
                       />
                     </View>
                   </View>
