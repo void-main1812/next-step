@@ -1,3 +1,4 @@
+import { useAuth } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { SplashScreenAnimation } from 'animations/SplashScreenAnimation';
 import Container from 'components/Container';
@@ -10,8 +11,17 @@ import { typographyStyles } from 'styles/typography';
 import { height } from 'utils/Size';
 
 const Splash = ({ navigation }: any) => {
+
+  const {isLoaded, userId, sessionId} =useAuth();
+
+  console.log(isLoaded, userId, sessionId);
+
   useEffect(() => {
     const navigateToHome = setTimeout(() => {
+      if(userId && sessionId) {
+        navigation.replace('Home');
+        return;
+      }
       navigation.replace('Auth');
     }, 5000);
     return () => clearTimeout(navigateToHome);

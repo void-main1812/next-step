@@ -1,5 +1,5 @@
-import { View, Text, Image } from 'react-native';
 import React from 'react';
+import { Image, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { height } from 'utils/Size';
 
