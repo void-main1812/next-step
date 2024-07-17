@@ -1,10 +1,11 @@
-import { useAuth } from '@clerk/clerk-react';
+import { useAuth, useUser } from '@clerk/clerk-react';
 import React, { useEffect } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 
 const Home = ({navigation}: any) => {
 
   const {signOut, isSignedIn} = useAuth();
+  const { user } = useUser();
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -20,6 +21,7 @@ const Home = ({navigation}: any) => {
   return (
     <View>
       <Text>Home</Text>
+      <Image source={{uri: user?.imageUrl}} style={{width: 100, height: 100}} />
       <Pressable onPress={onPress} >
         <Text>Sign Out</Text>
       </Pressable>
