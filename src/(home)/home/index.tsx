@@ -1,10 +1,16 @@
 import { useAuth } from '@clerk/clerk-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 const Home = ({navigation}: any) => {
 
-  const {signOut} = useAuth();
+  const {signOut, isSignedIn} = useAuth();
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      navigation.replace('Auth')
+    }
+  }, [isSignedIn])
 
   const onPress = () => {
     signOut()

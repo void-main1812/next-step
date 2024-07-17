@@ -14,8 +14,6 @@ const Splash = ({ navigation }: any) => {
 
   const {isLoaded, userId, sessionId} =useAuth();
 
-  console.log(isLoaded, userId, sessionId);
-
   useEffect(() => {
     const navigateToHome = setTimeout(() => {
       if(userId && sessionId) {

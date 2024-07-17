@@ -2,6 +2,7 @@
   "expo": {
     "name": "next-step",
     "slug": "next-step",
+    "scheme": "next-step",
     "version": "1.0.0",
     "web": {
       "favicon": "./assets/favicon.png"

@@ -2,10 +2,10 @@ import './styles/unistyles';
 
 import 'react-native-gesture-handler';
 
-import RootStack from './src/navigation';
-import { useFonts } from 'expo-font';
 import { ClerkLoaded, ClerkProvider } from '@clerk/clerk-expo';
+import { useFonts } from 'expo-font';
 import * as SecureStore from 'expo-secure-store';
+import RootStack from './src/navigation';
 
 const tokenCache = {
   async getToken(key: string) {
@@ -35,7 +35,7 @@ const tokenCache = {
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-export default function App() {
+export default function App({navigation}: any) {
   const [fontsLoaded] = useFonts({
     'ClashDisplay-Semibold': require('./assets/fonts/ClashDisplay-Semibold.otf'),
     'ClashDisplay-Medium': require('./assets/fonts/ClashDisplay-Medium.otf'),
