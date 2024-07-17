@@ -1,4 +1,4 @@
-import { useSignIn } from '@clerk/clerk-expo';
+import { useAuth, useSignIn } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from '@react-navigation/native';
 import Button from 'components/Button';
@@ -6,7 +6,7 @@ import Container from 'components/Container';
 import Input from 'components/Input';
 import Saperator from 'components/Saperator';
 import SocialAuthButton from 'components/SocialAuthButton';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -14,12 +14,13 @@ import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
 
-const Login = ({navigation}: any) => {
+const Login = ({ navigation }: any) => {
   const { theme, styles } = useStyles(styleSheet);
 
   const [isPasswordSecured, setIsPasswordSecured] = useState<boolean>(true);
 
   const { signIn, setActive, isLoaded } = useSignIn();
+  const { isSignedIn } = useAuth();
 
   const [emailAddress, setEmailAddress] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -48,6 +49,12 @@ const Login = ({navigation}: any) => {
       console.error(JSON.stringify(err, null, 2));
     }
   }, [isLoaded, emailAddress, password]);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      navigation.replace('Home');
+    }
+  }, [isSignedIn]);
 
   return (
     <>
@@ -102,9 +109,18 @@ const Login = ({navigation}: any) => {
           </View>
           <Saperator text="or continue with" />
           <View style={styles.socialAuthButtonContainer}>
-            <SocialAuthButton icon={require('../../../assets/socialIcons/Facebook.png')} />
-            <SocialAuthButton icon={require('../../../assets/socialIcons/Apple.png')} />
-            <SocialAuthButton icon={require('../../../assets/socialIcons/Google.png')} />
+            <SocialAuthButton
+              provider="oauth_facebook"
+              icon={require('../../../assets/socialIcons/Facebook.png')}
+            />
+            <SocialAuthButton
+              provider="oauth_github"
+              icon={require('../../../assets/socialIcons/Apple.png')}
+            />
+            <SocialAuthButton
+              provider="oauth_google"
+              icon={require('../../../assets/socialIcons/Google.png')}
+            />
           </View>
         </View>
       </Container>
