@@ -10,7 +10,16 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cmVhZHktYnVsbGZyb2ctMjYuY2xlcmsuYWNjb3VudHMuZGV2JA"
+      }
+    },
+    "test": {
+      "env": {
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cmVhZHktYnVsbGZyb2ctMjYuY2xlcmsuYWNjb3VudHMuZGV2JA"
+      }
+    }
   },
   "submit": {
     "production": {}

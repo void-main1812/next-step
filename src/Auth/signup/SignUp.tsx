@@ -1,7 +1,7 @@
 import { BlurView } from 'expo-blur';
 import { HEIGHT, OVERDRAG } from 'global/Constants';
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, {
   FadeIn,
@@ -82,7 +82,7 @@ const SignUp = ({ navigation }: any) => {
     } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      console.error(JSON.stringify(err, null, 2));
+      Alert.alert("Missing Fields", "Please fill all the fields as they are required to proceed further");
     }
   };
 
