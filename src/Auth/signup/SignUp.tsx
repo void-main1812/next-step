@@ -1,7 +1,10 @@
+import { useSignUp } from '@clerk/clerk-expo';
+import Button from 'components/Button';
+import Input from 'components/Input';
 import { BlurView } from 'expo-blur';
 import { HEIGHT, OVERDRAG } from 'global/Constants';
 import React, { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, {
   FadeIn,
@@ -14,12 +17,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { UnistylesRuntime, createStyleSheet, useStyles } from 'react-native-unistyles';
+import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
 import SignUpForm from './SignupForm';
-import { typographyStyles } from 'styles/typography';
-import Input from 'components/Input';
-import Button from 'components/Button';
-import { useSignUp } from '@clerk/clerk-expo';
 
 const AnimatePressable = Animated.createAnimatedComponent(Pressable);
 
@@ -82,7 +82,7 @@ const SignUp = ({ navigation }: any) => {
     } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      Alert.alert("Missing Fields", "Please fill all the fields as they are required to proceed further");
+      console.log(err, emailAddress, password);
     }
   };
 
@@ -111,16 +111,14 @@ const SignUp = ({ navigation }: any) => {
 
   return (
     <GestureHandlerRootView>
-      <SignUpForm onSignUpPress={onSignUpPress}
+      <SignUpForm
+        onSignUpPress={onSignUpPress}
         onEmailChange={(emailAddress) => setEmailAddress(emailAddress)}
         onPasswordChange={(password) => setPassword(password)}
       />
       {pendingVerification && (
         <>
-          <AnimatePressable
-            style={styles.backdrop}
-            entering={FadeIn}
-            exiting={FadeOut}>
+          <AnimatePressable style={styles.backdrop} entering={FadeIn} exiting={FadeOut}>
             <GestureDetector gesture={Pan}>
               <Animated.View
                 style={[styles.sheet, translateY]}
