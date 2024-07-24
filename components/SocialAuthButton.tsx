@@ -58,13 +58,13 @@ const SocialAuthButton = ({ icon, provider }: SocialAuthButtonProps) => {
       {loading ? (
         <ActivityIndicator size={'large'} color={theme.components.Text.title} />
       ) : (
-        <Image source={icon} style={styles.container} resizeMode="contain" />
+        icon && <Image source={icon} style={styles.container} resizeMode="contain" />
       )}
     </Pressable>
   );
 };
 
-const styleSheet = createStyleSheet((theme) => ({
+const styleSheet = createStyleSheet(() => ({
   container: {
     height: height(4),
     width: height(4),

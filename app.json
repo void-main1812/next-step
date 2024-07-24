@@ -11,8 +11,7 @@
       "tsconfigPaths": true
     },
     "plugins": [
-      "expo-font",
-      "@prisma/react-native"
+      "expo-font"
     ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",

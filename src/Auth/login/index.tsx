@@ -38,7 +38,7 @@ const Login = ({ navigation }: any) => {
 
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId });
-        navigation.replace('Home');
+        navigation.replace('HomeNavigator');
         console.log('User Signed In');
       } else {
         // See https://clerk.com/docs/custom-flows/error-handling
@@ -52,7 +52,7 @@ const Login = ({ navigation }: any) => {
 
   useEffect(() => {
     if (isSignedIn) {
-      navigation.replace('Home');
+      navigation.replace('HomeNavigator');
     }
   }, [isSignedIn]);
 
