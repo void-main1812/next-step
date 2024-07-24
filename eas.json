@@ -12,12 +12,16 @@
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cmVhZHktYnVsbGZyb2ctMjYuY2xlcmsuYWNjb3VudHMuZGV2JA"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cmVhZHktYnVsbGZyb2ctMjYuY2xlcmsuYWNjb3VudHMuZGV2JA",
+        "DATABASE_URL": "mongodb+srv://sourabhsingh:sourabhs1812@userdata.kdgvdzp.mongodb.net/users",
+        "EXPO_PUBLIC_API_URL": "https://next-step-backend.onrender.com"
       }
     },
     "test": {
       "env": {
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cmVhZHktYnVsbGZyb2ctMjYuY2xlcmsuYWNjb3VudHMuZGV2JA"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cmVhZHktYnVsbGZyb2ctMjYuY2xlcmsuYWNjb3VudHMuZGV2JA",
+        "DATABASE_URL": "mongodb+srv://sourabhsingh:sourabhs1812@userdata.kdgvdzp.mongodb.net/users",
+        "EXPO_PUBLIC_API_URL": "https://next-step-backend.onrender.com"
       }
     }
   },
