@@ -98,7 +98,7 @@ const SignUp = ({ navigation }: any) => {
 
       if (completeSignUp.status === 'complete') {
         await setActive({ session: completeSignUp.createdSessionId });
-        navigation.replace('Home');
+        navigation.replace('HomeNavigator');
       } else {
         console.error(JSON.stringify(completeSignUp, null, 2));
       }
