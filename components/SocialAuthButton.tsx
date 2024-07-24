@@ -1,6 +1,5 @@
-import { useOAuth } from '@clerk/clerk-expo';
+import { useAuth, useOAuth } from '@clerk/clerk-expo';
 import * as WebBrowser from 'expo-web-browser';
-import * as Linking from 'expo-linking';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Pressable } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -21,9 +20,10 @@ WebBrowser.maybeCompleteAuthSession();
 type SocialAuthButtonProps = {
   icon: any;
   provider: 'oauth_google' | 'oauth_facebook' | 'oauth_github';
+  navigation: any;
 };
 
-const SocialAuthButton = ({ icon, provider }: SocialAuthButtonProps) => {
+const SocialAuthButton = ({ icon, provider, navigation }: SocialAuthButtonProps) => {
   // handling loading state
   const [loading, setLoading] = useState(false);
 
@@ -32,6 +32,8 @@ const SocialAuthButton = ({ icon, provider }: SocialAuthButtonProps) => {
 
   // importing the startOAuthFlow function from the useOAuth hook and passing the provider
   const { startOAuthFlow } = useOAuth({ strategy: provider });
+  const {isSignedIn} = useAuth();
+
   // getting the styles and theme from the useStyles hook
   const { styles, theme } = useStyles(styleSheet);
 
@@ -39,9 +41,7 @@ const SocialAuthButton = ({ icon, provider }: SocialAuthButtonProps) => {
   const onPress = React.useCallback(async () => {
     setLoading(true);
     try {
-      const { createdSessionId, signIn, signUp, setActive } = await startOAuthFlow({
-        redirectUrl: Linking.createURL('/Home'),
-      });
+      const { createdSessionId, signIn, signUp, setActive } = await startOAuthFlow();
 
       if (createdSessionId) {
         setLoading(false);
@@ -51,6 +51,12 @@ const SocialAuthButton = ({ icon, provider }: SocialAuthButtonProps) => {
       console.error('OAuth error', err);
     }
   }, []);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      navigation.replace('HomeNavigator');
+    }
+  }, [isSignedIn, navigation])
 
   // rendering the button
   return (

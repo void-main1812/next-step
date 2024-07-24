@@ -1,4 +1,4 @@
-import { useAuth, useSignIn } from '@clerk/clerk-expo';
+import { useSignIn, useUser } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from '@react-navigation/native';
 import Button from 'components/Button';
@@ -7,7 +7,7 @@ import Input from 'components/Input';
 import Saperator from 'components/Saperator';
 import SocialAuthButton from 'components/SocialAuthButton';
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, ToastAndroid, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { spacing } from 'styles/spacing';
@@ -20,10 +20,10 @@ const Login = ({ navigation }: any) => {
   const [isPasswordSecured, setIsPasswordSecured] = useState<boolean>(true);
 
   const { signIn, setActive, isLoaded } = useSignIn();
-  const { isSignedIn } = useAuth();
+  const { isSignedIn } = useUser();
 
-  const [emailAddress, setEmailAddress] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [emailAddress, setEmailAddress] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const onSignInPress = React.useCallback(async () => {
     if (!isLoaded) {
@@ -39,7 +39,7 @@ const Login = ({ navigation }: any) => {
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId });
         navigation.replace('HomeNavigator');
-        console.log('User Signed In');
+        ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
       } else {
         // See https://clerk.com/docs/custom-flows/error-handling
         // for more info on error handling
@@ -50,11 +50,11 @@ const Login = ({ navigation }: any) => {
     }
   }, [isLoaded, emailAddress, password]);
 
-  useEffect(() => {
-    if (isSignedIn) {
-      navigation.replace('HomeNavigator');
-    }
-  }, [isSignedIn]);
+  // useEffect(() => {
+  //   if (isSignedIn) {
+  //     navigation.replace('HomeNavigator');
+  //   }
+  // }, [isSignedIn, navigation]);
 
   return (
     <>
@@ -110,14 +110,17 @@ const Login = ({ navigation }: any) => {
           <Saperator text="or continue with" />
           <View style={styles.socialAuthButtonContainer}>
             <SocialAuthButton
+            navigation={navigation}
               provider="oauth_facebook"
               icon={require('../../../assets/socialIcons/Facebook.png')}
             />
             <SocialAuthButton
+            navigation={navigation}
               provider="oauth_github"
               icon={require('../../../assets/socialIcons/Apple.png')}
             />
             <SocialAuthButton
+            navigation={navigation}
               provider="oauth_google"
               icon={require('../../../assets/socialIcons/Google.png')}
             />

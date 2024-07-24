@@ -9,7 +9,7 @@ const HomeScreen = ({navigation}: any) => {
 
   useEffect(() => {
     if (!isSignedIn) {
-      navigation.replace('Auth')
+        navigation.replace('Auth')
     }
   }, [isSignedIn])
 
@@ -21,7 +21,7 @@ const HomeScreen = ({navigation}: any) => {
   return (
     <View>
       <Text>HomeScreen</Text>
-      <Image source={{uri: user?.imageUrl}} style={{width: 100, height: 100}} />
+      {user?.imageUrl && <Image source={{uri: user?.imageUrl}} style={{width: 100, height: 100}} />}
       <Pressable onPress={onPress} >
         <Text>Sign Out</Text>
       </Pressable>
