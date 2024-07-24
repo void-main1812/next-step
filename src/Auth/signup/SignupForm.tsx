@@ -10,18 +10,35 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { typographyStyles } from 'styles/typography';
 import Input from 'components/Input';
 import Button from 'components/Button';
+import { useSignUp } from '@clerk/clerk-expo';
 
-type SignUpFormProps = {
-  onSignUpPress: () => void;
-  onEmailChange: (email: string) => void;
-  onPasswordChange: (password: string) => void;
-};
-
-const SignUpForm = ({onSignUpPress, onEmailChange, onPasswordChange}: SignUpFormProps) => {
+const SignUpForm = ({pendingStart}: {pendingStart: () => void}) => {
 
   const { theme, styles } = useStyles(styleSheet);
 
   const [isPasswordSecured, setIsPasswordSecured] = useState<boolean>(true);
+  const { isLoaded, signUp } = useSignUp();
+  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onSignUpPress = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      await signUp.create({
+        emailAddress,
+        password,
+      });
+
+      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+
+      pendingStart();
+    } catch (err: any) {
+      console.error(err, emailAddress, password);
+    }
+  };
   
 
   return (
@@ -46,7 +63,7 @@ const SignUpForm = ({onSignUpPress, onEmailChange, onPasswordChange}: SignUpForm
             label="Your Email"
             placeholder="username@host.com"
             leftIcon="mail"
-            onChangeText={onEmailChange}
+            onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
           />
           <Input
             label="Create Password"
@@ -55,7 +72,7 @@ const SignUpForm = ({onSignUpPress, onEmailChange, onPasswordChange}: SignUpForm
             rightIcon={isPasswordSecured ? 'eye' : 'eye-off'}
             secureTextEntry={isPasswordSecured}
             onRightIconPress={() => setIsPasswordSecured(!isPasswordSecured)}
-            onChangeText={onPasswordChange}
+            onChangeText={(password) => setPassword(password)}
           />
           <Text style={styles.generatePassword}>Generate Strong Password</Text>
           <Button

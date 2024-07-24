@@ -15,7 +15,6 @@ const HomeScreen = ({navigation}: any) => {
 
   const onPress = () => {
     signOut()
-    navigation.replace('Auth')
   }
 
   return (
