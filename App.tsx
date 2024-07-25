@@ -4,16 +4,22 @@ import 'react-native-gesture-handler';
 
 import { ClerkLoaded, ClerkLoading, ClerkProvider } from '@clerk/clerk-expo';
 import { useFonts } from 'expo-font';
-import { ActivityIndicator, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import LottieView from 'lottie-react-native';
+import { useRef } from 'react';
+import { ActivityIndicator, Text, View } from 'react-native';
+import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
 import { tokenCache } from 'utils/TokenCache';
 import RootStack from './src/navigation';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 export default function App() {
+  const animation = useRef<LottieView>(null);
+
+  const { styles } = useStyles(styleSheet);
 
   const [fontsLoaded] = useFonts({
     'ClashDisplay-Semibold': require('./assets/fonts/ClashDisplay-Semibold.otf'),
@@ -32,14 +38,7 @@ export default function App() {
       <View>
         <StatusBar style="light" hidden />
         <View
-          style={{
-            height: height(100),
-            width: width(100),
-            backgroundColor: '#000',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+          style={styles.loadingContainer}>
           <ActivityIndicator size={'large'} color={'#fff'} />
         </View>
       </View>
@@ -51,15 +50,14 @@ export default function App() {
       <StatusBar style="light" hidden />
       <ClerkLoading>
         <View
-          style={{
-            height: height(100),
-            width: width(100),
-            backgroundColor: '#000',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActivityIndicator size={'large'} color={'#fff'} />
+          style={styles.loadingContainer}>
+          <LottieView
+            autoPlay
+            ref={animation}
+            style={styles.animation}
+            source={require('./animations/lottieAnimations/server.json')}
+          />
+          <Text style={styles.loadingText}>Connecting to Server</Text>
         </View>
       </ClerkLoading>
       <ClerkLoaded>
@@ -68,3 +66,23 @@ export default function App() {
     </ClerkProvider>
   );
 }
+
+const styleSheet = createStyleSheet((theme) => ({
+  loadingContainer: {
+    height: height(100),
+    width: width(100),
+    backgroundColor: '#000',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  animation: {
+    width: 200,
+    height: 200,
+    backgroundColor: 'transparent'
+  },
+  loadingText: {
+    ...typographyStyles(theme).heading_3,
+    color: "#fff",
+  }
+}));

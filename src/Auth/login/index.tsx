@@ -1,133 +1,95 @@
-import { useSignIn, useUser } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from '@react-navigation/native';
 import Button from 'components/Button';
 import Container from 'components/Container';
 import Input from 'components/Input';
 import Saperator from 'components/Saperator';
-import SocialAuthButton from 'components/SocialAuthButton';
-import React, { useEffect, useState } from 'react';
-import { Text, ToastAndroid, View } from 'react-native';
+import { SocialAuthButtonCompact } from 'components/SocialAuthButton';
+import React, { useState } from 'react';
+import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
+import useSignInPress from 'hooks/authHooks/useSignInPress';
 
 const Login = ({ navigation }: any) => {
   const { theme, styles } = useStyles(styleSheet);
 
   const [isPasswordSecured, setIsPasswordSecured] = useState<boolean>(true);
 
-  const { signIn, setActive, isLoaded } = useSignIn();
-  const { isSignedIn } = useUser();
-
-  const [emailAddress, setEmailAddress] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
-  const onSignInPress = React.useCallback(async () => {
-    if (!isLoaded) {
-      return;
-    }
-
-    try {
-      const signInAttempt = await signIn.create({
-        identifier: emailAddress,
-        password,
-      });
-
-      if (signInAttempt.status === 'complete') {
-        await setActive({ session: signInAttempt.createdSessionId });
-        navigation.replace('HomeNavigator');
-        ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
-      } else {
-        // See https://clerk.com/docs/custom-flows/error-handling
-        // for more info on error handling
-        console.error(JSON.stringify(signInAttempt, null, 2));
-      }
-    } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2));
-    }
-  }, [isLoaded, emailAddress, password]);
-
-  // useEffect(() => {
-  //   if (isSignedIn) {
-  //     navigation.replace('HomeNavigator');
-  //   }
-  // }, [isSignedIn, navigation]);
+  const { onSignInPress, setEmailAddress, setPassword } = useSignInPress(navigation);
 
   return (
-    <>
-      <Container scrollable={false} statusBarColor='transparent'>
-        <View style={styles.container}>
-          <View>
-            <Animated.View sharedTransitionTag="appTitle" style={styles.appTitleContainer}>
-              <View style={styles.logoContainer}>
-                <Ionicons
-                  name="briefcase"
-                  size={height(4)}
-                  style={{ transform: [{ rotateZ: '-10deg' }] }}
-                  color={theme.components.Icons.normal.color}
-                />
-              </View>
-              <Text style={typographyStyles(theme).heading_2}>Next Step</Text>
-            </Animated.View>
-          </View>
-          <View style={styles.inputContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={typographyStyles(theme).heading_1}>Welcome</Text>
-              <Text style={typographyStyles(theme).body}>Please Login to Continue</Text>
+    <Container scrollable={false} statusBarColor="transparent">
+      <View style={styles.container}>
+        <View>
+          <Animated.View sharedTransitionTag="appTitle" style={styles.appTitleContainer}>
+            <View style={styles.logoContainer}>
+              <Ionicons
+                name="briefcase"
+                size={height(4)}
+                style={{ transform: [{ rotateZ: '-10deg' }] }}
+                color={theme.components.Icons.normal.color}
+              />
             </View>
-            <Input
-              label="Email"
-              keyboardType="email-address"
-              placeholder="johnDoe@gmail.com"
-              leftIcon="mail"
-              onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
-            />
-            <Input
-              secureTextEntry={isPasswordSecured}
-              onRightIconPress={() => setIsPasswordSecured(!isPasswordSecured)}
-              label="Password"
-              placeholder="ki@K847S"
-              leftIcon="lock-closed"
-              rightIcon={isPasswordSecured ? 'eye' : 'eye-off'}
-              onChangeText={(password) => setPassword(password)}
-            />
-            <Text style={styles.forgotPasswordContainer}>Forgot Password</Text>
-            <Button text="Login" size="full" rightIcon="arrow-forward" onPress={onSignInPress} />
-            <View style={styles.createAccountContainer}>
-              <Text style={typographyStyles(theme).body}>Don't have an Account?</Text>
-              <Link to={'/SignUpOptions'}>
-                {' '}
-                <Text
-                  style={[typographyStyles(theme).special, { textDecorationLine: 'underline' }]}>
-                  Create One
-                </Text>
-              </Link>
-            </View>
+            <Text style={typographyStyles(theme).heading_2}>Next Step</Text>
+          </Animated.View>
+        </View>
+        <View style={styles.inputContainer}>
+          <View style={styles.titleContainer}>
+            <Text style={typographyStyles(theme).heading_1}>Welcome</Text>
+            <Text style={typographyStyles(theme).body}>Please Login to Continue</Text>
           </View>
-          <Saperator text="or continue with" />
-          <View style={styles.socialAuthButtonContainer}>
-            <SocialAuthButton
-            navigation={navigation}
-              provider="oauth_facebook"
-              icon={require('../../../assets/socialIcons/Facebook.png')}
-            />
-            <SocialAuthButton
-            navigation={navigation}
-              provider="oauth_github"
-              icon={require('../../../assets/socialIcons/Apple.png')}
-            />
-            <SocialAuthButton
-            navigation={navigation}
-              provider="oauth_google"
-              icon={require('../../../assets/socialIcons/Google.png')}
-            />
+          <Input
+            label="Email"
+            keyboardType="email-address"
+            placeholder="johnDoe@gmail.com"
+            leftIcon="mail"
+            onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
+          />
+          <Input
+            secureTextEntry={isPasswordSecured}
+            onRightIconPress={() => setIsPasswordSecured(!isPasswordSecured)}
+            label="Password"
+            placeholder="ki@K847S"
+            leftIcon="lock-closed"
+            rightIcon={isPasswordSecured ? 'eye' : 'eye-off'}
+            onChangeText={(password) => setPassword(password)}
+          />
+          <Text style={styles.forgotPasswordContainer}>Forgot Password</Text>
+          <Button text="Login" size="full" rightIcon="arrow-forward" onPress={onSignInPress} />
+          <View style={styles.createAccountContainer}>
+            <Text style={typographyStyles(theme).body}>Don't have an Account?</Text>
+            <Link to={'/SignUpOptions'}>
+              {' '}
+              <Text style={[typographyStyles(theme).special, { textDecorationLine: 'underline' }]}>
+                Create One
+              </Text>
+            </Link>
           </View>
         </View>
-      </Container>
-    </>
+        <Saperator text="or continue with" />
+        <View style={styles.socialAuthButtonContainer}>
+          <SocialAuthButtonCompact
+            navigation={navigation}
+            provider="oauth_facebook"
+            icon={require('../../../assets/socialIcons/Facebook.png')}
+          />
+          <SocialAuthButtonCompact
+            navigation={navigation}
+            provider="oauth_github"
+            icon={require('../../../assets/socialIcons/Github.png')}
+          />
+          <SocialAuthButtonCompact
+            navigation={navigation}
+            provider="oauth_google"
+            icon={require('../../../assets/socialIcons/Google.png')}
+          />
+        </View>
+      </View>
+    </Container>
   );
 };
 
