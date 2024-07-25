@@ -5,6 +5,7 @@ import Container from 'components/Container';
 import Input from 'components/Input';
 import Saperator from 'components/Saperator';
 import { SocialAuthButtonCompact } from 'components/SocialAuthButton';
+import useSignInPress from 'hooks/authHooks/useSignInPress';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -12,7 +13,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
-import useSignInPress from 'hooks/authHooks/useSignInPress';
 
 const Login = ({ navigation }: any) => {
   const { theme, styles } = useStyles(styleSheet);
