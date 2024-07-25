@@ -1,11 +1,12 @@
-import { useAuth, useOAuth } from '@clerk/clerk-expo';
+import { useAuth } from '@clerk/clerk-expo';
 import * as WebBrowser from 'expo-web-browser';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ActivityIndicator, Image, Pressable } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { height } from 'utils/Size';
+import useSocialAuth from 'hooks/authHooks/useSocialAuth';
+import Button from './Button';
 
-// creating a browser warm-up function to avoid delay
 export const useWarmUpBrowser = () => {
   useEffect(() => {
     void WebBrowser.warmUpAsync();
@@ -20,45 +21,24 @@ WebBrowser.maybeCompleteAuthSession();
 type SocialAuthButtonProps = {
   icon: any;
   provider: 'oauth_google' | 'oauth_facebook' | 'oauth_github';
-  navigation: any;
+  navigation?: any;
+  text?: string;
 };
 
-const SocialAuthButton = ({ icon, provider, navigation }: SocialAuthButtonProps) => {
-  // handling loading state
-  const [loading, setLoading] = useState(false);
-
-  // warming up the browser to avoid delay
+export const SocialAuthButtonCompact = ({ icon, provider, navigation }: SocialAuthButtonProps) => {
   useWarmUpBrowser();
 
-  // importing the startOAuthFlow function from the useOAuth hook and passing the provider
-  const { startOAuthFlow } = useOAuth({ strategy: provider });
-  const {isSignedIn} = useAuth();
+  const { isSignedIn } = useAuth();
 
-  // getting the styles and theme from the useStyles hook
   const { styles, theme } = useStyles(styleSheet);
-
-  // handling the onPress event
-  const onPress = React.useCallback(async () => {
-    setLoading(true);
-    try {
-      const { createdSessionId, signIn, signUp, setActive } = await startOAuthFlow();
-
-      if (createdSessionId) {
-        setLoading(false);
-        setActive!({ session: createdSessionId });
-      }
-    } catch (err) {
-      console.error('OAuth error', err);
-    }
-  }, []);
+  const { loading, onPress } = useSocialAuth({ provider });
 
   useEffect(() => {
     if (isSignedIn) {
       navigation.replace('HomeNavigator');
     }
-  }, [isSignedIn, navigation])
+  }, [isSignedIn, navigation]);
 
-  // rendering the button
   return (
     <Pressable onPress={onPress} style={styles.container}>
       {loading ? (
@@ -70,11 +50,26 @@ const SocialAuthButton = ({ icon, provider, navigation }: SocialAuthButtonProps)
   );
 };
 
+export const SocialAuthButtonWide = ({ icon, provider, text }: SocialAuthButtonProps) => {
+  const { loading, onPress } = useSocialAuth({ provider });
+
+  const { theme } = useStyles();
+
+  return (
+    <>
+      {loading ? (
+        <ActivityIndicator size={'large'} color={theme.components.Text.title} />
+      ) : (
+        <Button text={text} leftIcon={icon} variant="secondary" onPress={onPress} size="full" />
+      )}
+    </>
+  );
+};
+
 const styleSheet = createStyleSheet(() => ({
   container: {
     height: height(4),
     width: height(4),
+    borderRadius: height(4),
   },
 }));
-
-export default SocialAuthButton;

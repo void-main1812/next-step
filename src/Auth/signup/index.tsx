@@ -3,6 +3,7 @@ import { Link } from '@react-navigation/native';
 import Button from 'components/Button';
 import Container from 'components/Container';
 import Saperator from 'components/Saperator';
+import { SocialAuthButtonWide } from 'components/SocialAuthButton';
 import React from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -40,27 +41,9 @@ const SignUpOptions = ({ navigation }: any) => {
             size="full"
           />
           <Saperator />
-          <Button
-            text="Google"
-            leftIcon="logo-google"
-            variant="secondary"
-            onPress={() => {}}
-            size="full"
-          />
-          <Button
-            text="Apple"
-            leftIcon="logo-apple"
-            variant="secondary"
-            onPress={() => {}}
-            size="full"
-          />
-          <Button
-            text="Facebook"
-            leftIcon="logo-facebook"
-            variant="secondary"
-            onPress={() => {}}
-            size="full"
-          />
+          <SocialAuthButtonWide icon="logo-google" provider="oauth_google" text="Google" />
+          <SocialAuthButtonWide icon="logo-github" provider="oauth_github" text="Github" />
+          <SocialAuthButtonWide icon="logo-facebook" provider="oauth_facebook" text="Facebook" />
         </View>
         <View style={styles.loginNowContainer}>
           <Text style={typographyStyles(theme).body}>Already have an Account ?</Text>
