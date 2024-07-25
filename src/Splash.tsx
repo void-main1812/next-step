@@ -11,12 +11,11 @@ import { typographyStyles } from 'styles/typography';
 import { height } from 'utils/Size';
 
 const Splash = ({ navigation }: any) => {
-
-  const {isLoaded, userId, sessionId} =useAuth();
+  const { userId, sessionId } = useAuth();
 
   useEffect(() => {
     const navigateToHome = setTimeout(() => {
-      if(userId && sessionId) {
+      if (userId && sessionId) {
         navigation.replace('HomeNavigator');
         return;
       }

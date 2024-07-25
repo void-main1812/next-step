@@ -58,7 +58,7 @@ const Login = ({ navigation }: any) => {
 
   return (
     <>
-      <Container scrollable={false} statusBarColor="transparent">
+      <Container scrollable={false} statusBarColor='transparent'>
         <View style={styles.container}>
           <View>
             <Animated.View sharedTransitionTag="appTitle" style={styles.appTitleContainer}>
