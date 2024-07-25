@@ -8,11 +8,8 @@ import { ActivityIndicator } from 'react-native';
 import { useStyles } from 'react-native-unistyles';
 import { tokenCache } from 'utils/TokenCache';
 import RootStack from './src/navigation';
-import * as SplashScreen from 'expo-splash-screen'
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
-SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const { theme } = useStyles();
