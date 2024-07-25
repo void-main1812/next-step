@@ -9,9 +9,10 @@ type containerProps = {
   children: ReactNode;
   scrollable?: boolean;
   statusBarColor?: string;
+  statusBarHidden?: boolean;
 };
 
-const Container = ({ children, scrollable = false, statusBarColor }: containerProps) => {
+const Container = ({ children, scrollable = false, statusBarColor, statusBarHidden = false }: containerProps) => {
   const { styles, theme } = useStyles(stylesheet);
 
   return (
@@ -19,6 +20,7 @@ const Container = ({ children, scrollable = false, statusBarColor }: containerPr
       <StatusBar
         style={'auto'}
         backgroundColor={statusBarColor ? statusBarColor : theme.components.Statusbar.color}
+        hidden={statusBarHidden}
       />
       <View style={{ backgroundColor: theme.components.Background.color }}>
         <ScrollView
