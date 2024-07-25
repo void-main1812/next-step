@@ -10,10 +10,14 @@ import { tokenCache } from 'utils/TokenCache';
 import RootStack from './src/navigation';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import LottieView from 'lottie-react-native';
+import { useRef } from 'react';
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 export default function App() {
+
+  const animation = useRef<LottieView>(null);
 
   const [fontsLoaded] = useFonts({
     'ClashDisplay-Semibold': require('./assets/fonts/ClashDisplay-Semibold.otf'),
@@ -46,6 +50,7 @@ export default function App() {
     );
   }
 
+
   return (
     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
       <StatusBar style="light" hidden />
@@ -59,7 +64,17 @@ export default function App() {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <ActivityIndicator size={'large'} color={'#fff'} />
+          <LottieView
+            autoPlay
+            ref={animation}
+            style={{
+              width: 200,
+              height: 200,
+              backgroundColor: '#eee',
+            }}
+            // Find more Lottie files at https://lottiefiles.com/featured
+            source={require('./animations/lottieAnimations/server.json')}
+          />
         </View>
       </ClerkLoading>
       <ClerkLoaded>
