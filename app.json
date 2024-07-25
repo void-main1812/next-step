@@ -17,7 +17,7 @@
     "splash": {
       "image": "./assets/loading.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fff"
+      "backgroundColor": "#000"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -26,7 +26,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/app_icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000"
       },
       "splash": {
         "image": "./assets/loading.png",
