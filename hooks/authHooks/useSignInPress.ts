@@ -7,8 +7,12 @@ export default function useSignInPress(navigation: any) {
   const { signIn, setActive, isLoaded } = useSignIn();
   const [emailAddress, setEmailAddress] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSignInPress = useCallback(async () => {
+
+    setIsLoading(true);
+
     if (!isLoaded) {
       return;
     }
@@ -21,6 +25,7 @@ export default function useSignInPress(navigation: any) {
 
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId });
+        setIsLoading(false);
         navigation.replace('HomeNavigator');
         ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
       } else {
@@ -31,5 +36,5 @@ export default function useSignInPress(navigation: any) {
     }
   }, [isLoaded, emailAddress, password]);
 
-  return { onSignInPress, setEmailAddress, setPassword };
+  return { onSignInPress, setEmailAddress, setPassword, isLoading };
 }

@@ -19,7 +19,7 @@ const Login = ({ navigation }: any) => {
 
   const [isPasswordSecured, setIsPasswordSecured] = useState<boolean>(true);
 
-  const { onSignInPress, setEmailAddress, setPassword } = useSignInPress(navigation);
+  const { onSignInPress, setEmailAddress, setPassword, isLoading } = useSignInPress(navigation);
 
   return (
     <Container scrollable={false} statusBarColor="transparent">
@@ -59,7 +59,7 @@ const Login = ({ navigation }: any) => {
             onChangeText={(password) => setPassword(password)}
           />
           <Text style={styles.forgotPasswordContainer}>Forgot Password</Text>
-          <Button text="Login" size="full" rightIcon="arrow-forward" onPress={onSignInPress} />
+          <Button text="Login" size="full" rightIcon="arrow-forward" isLoading={isLoading} onPress={onSignInPress} />
           <View style={styles.createAccountContainer}>
             <Text style={typographyStyles(theme).body}>Don't have an Account?</Text>
             <Link to={'/SignUpOptions'}>

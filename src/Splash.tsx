@@ -1,7 +1,6 @@
 import { useAuth } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { SplashScreenAnimation } from 'animations/SplashScreenAnimation';
-import { getUser } from 'api/user.api';
 import Container from 'components/Container';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, Text } from 'react-native';

@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { typographyStyles } from 'styles/typography';
 import { height } from 'utils/Size';
@@ -17,6 +17,7 @@ type ButtonProps = {
   longPressTimeout?: number;
   onLongPress?: () => void;
   disabled?: boolean;
+  isLoading?: boolean;
 };
 
 const Button = ({
@@ -30,6 +31,7 @@ const Button = ({
   longPressTimeout = 500,
   onLongPress,
   disabled = false,
+  isLoading = false,
 }: ButtonProps) => {
   // destructuring the theme and styles from the useStyles hook
   const { theme, styles } = useStyles(stylesheet, {
@@ -54,23 +56,26 @@ const Button = ({
         delayLongPress={longPressTimeout}
         onLongPress={onLongPress}
         android_ripple={rippleEffect}>
-        {/* ANCHOR This is the left Icon */}
-        {leftIcon && (
-          <Ionicons
-            name={leftIcon}
-            size={height(2.4)}
-            color={theme.components.Button[variant].textColor}
-          />
-        )}
-        {/* ANCHOR This is the text */}
-        {text && <Text style={styles.text}>{text}</Text>}
-        {/* ANCHOR This is the right Icon */}
-        {rightIcon && (
-          <Ionicons
-            name={rightIcon}
-            size={height(2.4)}
-            color={theme.components.Button[variant].textColor}
-          />
+        {isLoading ? (
+          <ActivityIndicator size="small" color={theme.components.Button[variant].textColor} />
+        ) : (
+          <>
+            {leftIcon && (
+              <Ionicons
+                name={leftIcon}
+                size={height(2.4)}
+                color={theme.components.Button[variant].textColor}
+              />
+            )}
+            {text && <Text style={styles.text}>{text}</Text>}
+            {rightIcon && (
+              <Ionicons
+                name={rightIcon}
+                size={height(2.4)}
+                color={theme.components.Button[variant].textColor}
+              />
+            )}
+          </>
         )}
       </Pressable>
     </View>
@@ -86,7 +91,6 @@ const stylesheet = createStyleSheet((theme) => ({
       size: {
         full: {
           maxWidth: '100%',
-          flex: 1,
         },
         normal: {
           maxWidth: undefined,

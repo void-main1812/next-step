@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { spacing } from 'styles/spacing';
@@ -10,9 +10,10 @@ type ChipsProps = {
   chipText?: string;
   variant?: 'normal' | 'favourable';
   icon?: keyof typeof Ionicons.glyphMap;
+  onpress?: () => void;
 };
 
-const Chips = ({ chipText = 'Your Text', variant = 'normal', icon }: ChipsProps) => {
+export const Chips = ({ chipText = 'Your Text', variant = 'normal', icon }: ChipsProps) => {
   const { styles, theme } = useStyles(styleSheet, { color: variant });
 
   return (
@@ -25,6 +26,27 @@ const Chips = ({ chipText = 'Your Text', variant = 'normal', icon }: ChipsProps)
         />
       )}
       <Text style={styles.chipText}>{chipText}</Text>
+    </View>
+  );
+};
+
+export const RemoveableChips = ({
+  chipText = 'Your Text',
+  variant = 'normal',
+  onpress,
+}: ChipsProps) => {
+  const { styles, theme } = useStyles(styleSheet, { color: variant });
+
+  return (
+    <View style={styles.chipContainer}>
+      <Text style={styles.chipText}>{chipText}</Text>
+      <Pressable onPress={onpress}>
+        <Ionicons
+          name="close-circle"
+          size={spacing.icons.medium}
+          color={theme.components.Chip[variant].color}
+        />
+      </Pressable>
     </View>
   );
 };
@@ -64,5 +86,3 @@ const styleSheet = createStyleSheet((theme) => ({
     },
   },
 }));
-
-export default Chips;

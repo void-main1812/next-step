@@ -1,31 +1,34 @@
-import { useSignUp } from "@clerk/clerk-expo";
-import { useState } from "react";
+import { useSignUp } from '@clerk/clerk-expo';
+import { useState } from 'react';
 
-export default function useOtpVerification({navigation}: {navigation:any}) {
-
-  const [code, setCode] = useState('');
+export default function useOtpVerification({ navigation }: { navigation: any }) {
+  const [code, setCode] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isLoaded, signUp, setActive } = useSignUp();
 
-    const onPressVerify = async () => {
-      if (!isLoaded) {
-        return;
+  const onPressVerify = async () => {
+    setIsLoading(true);
+
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code,
+      });
+
+      if (completeSignUp.status === 'complete') {
+        await setActive({ session: completeSignUp.createdSessionId });
+        setIsLoading(false);
+        navigation.navigate('Onboarding');
+      } else {
+        console.log('Verification failed');
       }
+    } catch (err: any) {
+      console.error(err);
+    }
+  };
 
-      try {
-        const completeSignUp = await signUp.attemptEmailAddressVerification({
-          code,
-        });
-
-        if (completeSignUp.status === 'complete') {
-          await setActive({ session: completeSignUp.createdSessionId });
-          navigation.replace('HomeNavigator');
-        } else {
-          console.error(JSON.stringify(completeSignUp, null, 2));
-        }
-      } catch (err: any) {
-        console.error(err);
-      }
-    };
-
-    return {onPressVerify, setCode};
+  return { onPressVerify, setCode, isLoading };
 }
