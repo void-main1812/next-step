@@ -3,13 +3,13 @@ import React from 'react';
 import Login from './login';
 import SignUpOptions from './signup';
 import SignUp from './signup/SignUp';
-import RapidApi from './RapidApi';
+import Onboarding from './signup/Onboarding';
 
 export type RootStackParamList = {
   Login: undefined;
   SignUpOptions: undefined;
   Signup: undefined;
-  RapidApi: undefined;
+  Onboarding: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -26,7 +26,7 @@ const AuthNavigator = () => {
         component={SignUpOptions}
       />
       <Stack.Screen name="Signup" options={{ headerShown: false }} component={SignUp} />
-      <Stack.Screen name="RapidApi" options={{ headerShown: false }} component={RapidApi} />
+      <Stack.Screen name="Onboarding" options={{ headerShown: false }} component={Onboarding} />
     </Stack.Navigator>
   );
 };

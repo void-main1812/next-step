@@ -1,19 +1,22 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, TextInputProps, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { typographyStyles } from 'styles/typography';
 import { height } from 'utils/Size';
 
 // types for the Input component props
 type InputProps = {
+  props?:TextInputProps,
   rightIcon?: keyof typeof Ionicons.glyphMap;
   leftIcon?: keyof typeof Ionicons.glyphMap;
   label?: string;
   placeholder?: string;
-  onChangeText?: (text: string) => void;
+  value?: string;
   secureTextEntry?: boolean;
+  onChangeText?: (text: string) => void;
   onRightIconPress?: () => void;
+  onFocus?: () => void;
   keyboardType?:
     | 'default'
     | 'number-pad'
@@ -26,12 +29,15 @@ type InputProps = {
 const Input = ({
   rightIcon,
   leftIcon,
+  value,
   label = 'Label Here',
   placeholder = 'Placeholder',
-  onChangeText,
   secureTextEntry = false,
-  onRightIconPress,
   keyboardType = 'default',
+  onChangeText,
+  onRightIconPress,
+  onFocus,
+  props
 }: InputProps) => {
   // destructuring the theme and styles from the useStyles hook
   const { styles, theme } = useStyles(stylesheet);
@@ -49,8 +55,11 @@ const Input = ({
           placeholder={placeholder}
           style={styles.input}
           keyboardType={keyboardType}
+          value={value}
           placeholderTextColor={theme.components.Input.placeholderColor}
           onChangeText={onChangeText}
+          onFocus={onFocus}
+          {...props}
         />
         {/* Right-Icon */}
         {rightIcon && (

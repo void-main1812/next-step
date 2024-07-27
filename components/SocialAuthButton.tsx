@@ -21,23 +21,14 @@ WebBrowser.maybeCompleteAuthSession();
 type SocialAuthButtonProps = {
   icon: any;
   provider: 'oauth_google' | 'oauth_facebook' | 'oauth_github';
-  navigation?: any;
   text?: string;
 };
 
-export const SocialAuthButtonCompact = ({ icon, provider, navigation }: SocialAuthButtonProps) => {
+export const SocialAuthButtonCompact = ({ icon, provider }: SocialAuthButtonProps) => {
   useWarmUpBrowser();
-
-  const { isSignedIn } = useAuth();
 
   const { styles, theme } = useStyles(styleSheet);
   const { loading, onPress } = useSocialAuth({ provider });
-
-  useEffect(() => {
-    if (isSignedIn) {
-      navigation.replace('HomeNavigator');
-    }
-  }, [isSignedIn, navigation]);
 
   return (
     <Pressable onPress={onPress} style={styles.container}>

@@ -1,13 +1,13 @@
-import { UnistylesRuntime, createStyleSheet, useStyles } from 'react-native-unistyles';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from '@react-navigation/native';
 import { OtpVerificationAnimation } from 'animations/OtpVerificationAnimation';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { BlurView } from 'expo-blur';
+import React, { useState } from 'react';
+import { KeyboardAvoidingView, Pressable, StyleSheet, Text, View } from 'react-native';
 import { GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { FadeIn, FadeOut, SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import React, { useState } from 'react';
-import { BlurView } from 'expo-blur';
+import { UnistylesRuntime, createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import Button from 'components/Button';
 import Container from 'components/Container';
@@ -17,8 +17,8 @@ import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
 
-import useSignUpUser from 'hooks/authHooks/useSignUpUser';
 import useOtpVerification from 'hooks/authHooks/otpVerification';
+import useSignUpUser from 'hooks/authHooks/useSignUpUser';
 
 const AnimatePressable = Animated.createAnimatedComponent(Pressable);
 
@@ -28,8 +28,15 @@ const SignUp = ({ navigation }: any) => {
   const { theme, styles } = useStyles(styleSheet);
   const { translateY, Pan } = OtpVerificationAnimation();
 
-  const { setCode, onPressVerify } = useOtpVerification({ navigation });
-  const { onSignUpPress, setEmailAddress, setPassword, pendingVerification } = useSignUpUser();
+  const { setCode, onPressVerify, isLoading } = useOtpVerification({ navigation });
+  const {
+    onSignUpPress,
+    setEmailAddress,
+    setPassword,
+    setFirstName,
+    setLastName,
+    pendingVerification,
+  } = useSignUpUser();
 
   const AppTheme = UnistylesRuntime.themeName;
 
@@ -44,37 +51,52 @@ const SignUp = ({ navigation }: any) => {
               size={spacing.icons.large}
             />
           </Link>
-          <View style={styles.titleContainer}>
-            <Text style={typographyStyles(theme).heading_1}>Create New {`\n`}Account</Text>
-            <Text style={typographyStyles(theme).body}>
-              Enter your details to create a new account
-            </Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <Input
-              keyboardType="email-address"
-              label="Your Email"
-              placeholder="username@host.com"
-              leftIcon="mail"
-              onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
-            />
-            <Input
-              label="Create Password"
-              placeholder="kaiWR#w2t"
-              leftIcon="lock-closed"
-              rightIcon={isPasswordSecured ? 'eye' : 'eye-off'}
-              secureTextEntry={isPasswordSecured}
-              onRightIconPress={() => setIsPasswordSecured(!isPasswordSecured)}
-              onChangeText={(password) => setPassword(password)}
-            />
-            <Text style={styles.generatePassword}>Generate Strong Password</Text>
-            <Button
-              text="Verify Email"
-              size="full"
-              rightIcon="shield-checkmark"
-              onPress={onSignUpPress}
-            />
-          </View>
+          <KeyboardAvoidingView behavior="padding" style={styles.keyboardAvoidingContainer}>
+            <View style={styles.titleContainer}>
+              <Text style={typographyStyles(theme).heading_1}>Create New {`\n`}Account</Text>
+              <Text style={typographyStyles(theme).body}>
+                Enter your details to create a new account
+              </Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <Input
+                keyboardType="default"
+                label="First Name"
+                placeholder="John"
+                onChangeText={(firstName) => setFirstName(firstName)}
+              />
+              <Input
+                keyboardType="default"
+                label="Last Name"
+                placeholder="Doe"
+                onChangeText={(lastName) => setLastName(lastName)}
+              />
+              <Input
+                keyboardType="email-address"
+                label="Your Email"
+                placeholder="username@host.com"
+                leftIcon="mail"
+                onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
+              />
+              <Input
+                label="Create Password"
+                placeholder="kaiWR#w2t"
+                leftIcon="lock-closed"
+                rightIcon={isPasswordSecured ? 'eye' : 'eye-off'}
+                secureTextEntry={isPasswordSecured}
+                onRightIconPress={() => setIsPasswordSecured(!isPasswordSecured)}
+                onChangeText={(password) => setPassword(password)}
+              />
+              <Text style={styles.generatePassword}>Generate Strong Password</Text>
+              <Button
+                text="Verify Email"
+                size="full"
+                rightIcon="shield-checkmark"
+                onPress={onSignUpPress}
+                isLoading={pendingVerification}
+              />
+            </View>
+          </KeyboardAvoidingView>
           <View style={styles.agreementTextContainer}>
             <Text style={styles.agreementText}>
               By Creating an Account you Agree to our{' '}
@@ -118,6 +140,7 @@ const SignUp = ({ navigation }: any) => {
                       enableRipple={true}
                       rightIcon="checkmark"
                       onPress={onPressVerify}
+                      isLoading={isLoading}
                     />
                   </View>
                 </View>
@@ -158,6 +181,11 @@ const styleSheet = createStyleSheet((theme) => ({
     zIndex: 1,
   },
 
+  keyboardAvoidingContainer: {
+    gap: height(6),
+    width: '100%',
+  },
+
   otpContainer: {
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -192,9 +220,10 @@ const styleSheet = createStyleSheet((theme) => ({
   },
 
   inputContainer: {
-    width: '100%',
-    gap: height(3),
     paddingHorizontal: width(5),
+    gap: height(3),
+    width: width(100),
+    backgroundColor: theme.components.Background.color,
   },
 
   generatePassword: {
