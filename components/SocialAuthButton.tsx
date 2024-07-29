@@ -1,10 +1,9 @@
-import { useAuth } from '@clerk/clerk-expo';
 import * as WebBrowser from 'expo-web-browser';
+import useSocialAuth from 'hooks/authHooks/useSocialAuth';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, Image, Pressable } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { height } from 'utils/Size';
-import useSocialAuth from 'hooks/authHooks/useSocialAuth';
 import Button from './Button';
 
 export const useWarmUpBrowser = () => {
@@ -19,16 +18,17 @@ export const useWarmUpBrowser = () => {
 WebBrowser.maybeCompleteAuthSession();
 
 type SocialAuthButtonProps = {
+  navigation?: any;
   icon: any;
   provider: 'oauth_google' | 'oauth_facebook' | 'oauth_github';
   text?: string;
 };
 
-export const SocialAuthButtonCompact = ({ icon, provider }: SocialAuthButtonProps) => {
+export const SocialAuthButtonCompact = ({ icon, provider, navigation }: SocialAuthButtonProps) => {
   useWarmUpBrowser();
 
   const { styles, theme } = useStyles(styleSheet);
-  const { loading, onPress } = useSocialAuth({ provider });
+  const { loading, onPress } = useSocialAuth({ provider, navigation });
 
   return (
     <Pressable onPress={onPress} style={styles.container}>
@@ -41,8 +41,8 @@ export const SocialAuthButtonCompact = ({ icon, provider }: SocialAuthButtonProp
   );
 };
 
-export const SocialAuthButtonWide = ({ icon, provider, text }: SocialAuthButtonProps) => {
-  const { loading, onPress } = useSocialAuth({ provider });
+export const SocialAuthButtonWide = ({ icon, provider, text, navigation }: SocialAuthButtonProps) => {
+  const { loading, onPress } = useSocialAuth({ provider, navigation });
 
   const { theme } = useStyles();
 

@@ -1,20 +1,20 @@
 import { useAuth, useUser } from '@clerk/clerk-react';
-import Button from 'components/Button';
 import Container from 'components/Container';
 import DropDown from 'components/DropDown';
+import Input from 'components/Input';
+import { useGetUser } from 'hooks/queries/UserQueries';
 import React, { useEffect, useState } from 'react';
 import { Image, Text } from 'react-native';
 import { useStyles } from 'react-native-unistyles';
 import { typographyStyles } from 'styles/typography';
 
 const HomeScreen = ({ navigation }: any) => {
-  const [input, setInput] = useState('');
-  const [skills, setSkills] = useState<string>('');
-  const [skillsArray, setSkillsArray] = useState<string[]>([]);
   const [dropDownValue, setDropDownValue] = useState<string>('Select Location');
 
   const { signOut, isSignedIn } = useAuth();
   const { user } = useUser();
+  const { userId } = useAuth();
+  const { status, userData } = useGetUser(userId!);
 
   const { theme } = useStyles();
 
@@ -26,24 +26,13 @@ const HomeScreen = ({ navigation }: any) => {
     }
   }, [isSignedIn]);
 
-  const onPress = () => {
-    signOut();
-  };
-
-  function onChangeText(text: string) {
-    setInput(text);
-  }
-
-  if (input[input.length - 1] === ',') {
-    console.log(true);
-    let string = input.slice(0, -1);
-    setSkills(string);
-    setInput('');
-  }
-
-  if (!skillsArray.includes(skills)) {
-    setSkillsArray([...skillsArray, skills]);
-  }
+  useEffect(() => {
+    if (status === 'success') {
+      console.log(userData?.skills);
+    } else {
+      console.log('Pending');
+    }
+  }, [userData]);
 
   return (
     <Container>
@@ -58,8 +47,19 @@ const HomeScreen = ({ navigation }: any) => {
       <Text style={[typographyStyles(theme).body_small, { letterSpacing: 0 }]}>
         Your email Address is {user?.primaryEmailAddress?.emailAddress}
       </Text>
-      <DropDown label='Location' leftIcon='location' value={dropDownValue} setValue={setDropDownValue} data={data} />
-      <Button onPress={onPress} text="Sign Out" size="full" />
+      <Input
+        label="Search for Job"
+        placeholder="Eg: Software Engineer in Banglore"
+        leftIcon="search"
+        onChangeText={() => {}}
+      />
+      <DropDown
+        label="Location"
+        leftIcon="location"
+        value={dropDownValue}
+        setValue={setDropDownValue}
+        data={data}
+      />
     </Container>
   );
 };

@@ -41,9 +41,9 @@ const SignUpOptions = ({ navigation }: any) => {
             size="full"
           />
           <Saperator />
-          <SocialAuthButtonWide icon="logo-google" provider="oauth_google" text="Google" />
-          <SocialAuthButtonWide icon="logo-github" provider="oauth_github" text="Github" />
-          <SocialAuthButtonWide icon="logo-facebook" provider="oauth_facebook" text="Facebook" />
+          <SocialAuthButtonWide navigation={navigation} icon="logo-google" provider="oauth_google" text="Google" />
+          <SocialAuthButtonWide navigation={navigation} icon="logo-github" provider="oauth_github" text="Github" />
+          <SocialAuthButtonWide navigation={navigation} icon="logo-facebook" provider="oauth_facebook" text="Facebook" />
         </View>
         <View style={styles.loginNowContainer}>
           <Text style={typographyStyles(theme).body}>Already have an Account ?</Text>
