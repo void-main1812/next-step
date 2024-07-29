@@ -4,7 +4,7 @@ const rapidApiUrl = process.env.EXPO_PUBLIC_RAPID_API_URL;
 const rapidApiKey = process.env.EXPO_PUBLIC_RAPID_API_KEY;
 const rapidApiHost = process.env.EXPO_PUBLIC_RAPID_API_HOST;
 
-type JobRequest = {
+export type JobRequest = {
   query: string;
   page?: number;
   num_pages?: number;

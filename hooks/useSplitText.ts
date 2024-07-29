@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useSplitText({
   text,
@@ -10,16 +10,20 @@ export default function useSplitText({
   const [arrayValues, setArrayValues] = useState<string>('');
   const [array, setArray] = useState<string[]>([]);
 
-  if (text[text.length - 1] === ',') {
-    let string = text.slice(0, -1);
-    setArrayValues(string);
-    setValue('');
-  }
+  useEffect(() => {
+    if (text[text.length - 1] === ',') {
+      let string = text.slice(0, -1);
+      setArrayValues(string);
+      setValue('');
+    }
+  }, [text, setValue]);
 
-  if (arrayValues && !array.includes(arrayValues)) {
-    setArray([...array, arrayValues]);
-    setArrayValues('');
-  }
+  useEffect(() => {
+    if (arrayValues && !array.includes(arrayValues)) {
+      setArray([...array, arrayValues]);
+      setArrayValues('');
+    }
+  }, [array, arrayValues]);
 
   const removeItem = (item: string) => {
     const newArray = array.filter((value) => value !== item);

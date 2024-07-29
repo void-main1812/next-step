@@ -1,11 +1,10 @@
 import { useAuth } from '@clerk/clerk-expo';
-import { useMutation } from '@tanstack/react-query';
-import { createUser } from 'api/user.api';
 import Button from 'components/Button';
 import { RemoveableChips } from 'components/Chips';
 import Container from 'components/Container';
 import DropDown from 'components/DropDown';
 import Input from 'components/Input';
+import { useCreateUser } from 'hooks/queries/UserQueries';
 import useSplitText from 'hooks/useSplitText';
 import React, { useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Text, View } from 'react-native';
@@ -27,24 +26,25 @@ const Onboarding = ({ navigation }: any) => {
   const LocationOptions = ['Select Option', 'Remote', 'Onsite', 'Hybrid'];
 
   const userData = {
-    userId,
+    userId: userId!,
     jobRole,
     skills: skillList,
     location,
   };
-
-  const createUserMutation = useMutation({
-    mutationFn: createUser,
-    onSuccess: () => {
-      setIsLoading(false);
-      console.log('User Created');
-      navigation.replace('HomeNavigator');
-    },
-  });
+  
+  const { CreateMutation, status } = useCreateUser();
 
   const handleSave = () => {
     setIsLoading(true);
-    createUserMutation.mutate(userData);
+    CreateMutation.mutate(userData, {
+      onSuccess: () => {
+        navigation.replace('HomeNavigator');
+      },
+      onError: () => {
+        setIsLoading(false);
+        console.log('Error creating user');
+      },
+    });
   };
 
   return (
