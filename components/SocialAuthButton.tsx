@@ -18,17 +18,16 @@ export const useWarmUpBrowser = () => {
 WebBrowser.maybeCompleteAuthSession();
 
 type SocialAuthButtonProps = {
-  navigation?: any;
   icon: any;
   provider: 'oauth_google' | 'oauth_facebook' | 'oauth_github';
   text?: string;
 };
 
-export const SocialAuthButtonCompact = ({ icon, provider, navigation }: SocialAuthButtonProps) => {
+export const SocialAuthButtonCompact = ({ icon, provider }: SocialAuthButtonProps) => {
   useWarmUpBrowser();
 
   const { styles, theme } = useStyles(styleSheet);
-  const { loading, onPress } = useSocialAuth({ provider, navigation });
+  const { loading, onPress } = useSocialAuth({ provider });
 
   return (
     <Pressable onPress={onPress} style={styles.container}>
@@ -41,8 +40,8 @@ export const SocialAuthButtonCompact = ({ icon, provider, navigation }: SocialAu
   );
 };
 
-export const SocialAuthButtonWide = ({ icon, provider, text, navigation }: SocialAuthButtonProps) => {
-  const { loading, onPress } = useSocialAuth({ provider, navigation });
+export const SocialAuthButtonWide = ({ icon, provider, text }: SocialAuthButtonProps) => {
+  const { loading, onPress } = useSocialAuth({ provider });
 
   const { theme } = useStyles();
 

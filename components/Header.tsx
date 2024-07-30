@@ -10,9 +10,18 @@ type HeaderProps = {
   ShowBackIcon?: boolean;
   ShowSettingsIcon?: boolean;
   RightIcon?: keyof typeof Ionicons.glyphMap;
+  showLogo?: boolean;
+  logo?: keyof typeof Ionicons.glyphMap;
 };
 
-const Header = ({ Name, ShowBackIcon, ShowSettingsIcon, RightIcon }: HeaderProps) => {
+const Header = ({
+  Name,
+  ShowBackIcon,
+  ShowSettingsIcon,
+  RightIcon,
+  showLogo = true,
+  logo = 'briefcase',
+}: HeaderProps) => {
   const { theme, styles } = useStyles(stylesheet);
 
   const iconColor = theme.components.Header.iconColor;
@@ -21,6 +30,7 @@ const Header = ({ Name, ShowBackIcon, ShowSettingsIcon, RightIcon }: HeaderProps
     <View style={styles.headerContainer}>
       <View style={styles.headerItemContainer}>
         {ShowBackIcon && <Ionicons name={'arrow-back'} size={24} color={iconColor} />}
+        {showLogo && <Ionicons name={logo} size={30} color={iconColor} />}
         <Text style={typographyStyles(theme).heading_3}>{Name}</Text>
       </View>
       <View style={styles.headerItemContainer}>

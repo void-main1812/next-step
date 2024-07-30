@@ -54,7 +54,7 @@ export const RemoveableChips = ({
 const styleSheet = createStyleSheet((theme) => ({
   chipContainer: {
     borderRadius: spacing.height[2],
-    minHeight: height(4),
+    minHeight: height(5),
     paddingHorizontal: spacing.height[6],
     flexDirection: 'row',
     justifyContent: 'center',

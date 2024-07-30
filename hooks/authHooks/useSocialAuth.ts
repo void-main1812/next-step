@@ -3,10 +3,9 @@ import { useCallback, useState } from 'react';
 
 type SocialAuthProps = {
   provider: 'oauth_google' | 'oauth_facebook' | 'oauth_github';
-  navigation: any;
-}
+};
 
-export default function useSocialAuth({provider, navigation}: SocialAuthProps) {
+export default function useSocialAuth({ provider }: SocialAuthProps) {
   const [loading, setLoading] = useState(false);
 
   const { startOAuthFlow } = useOAuth({ strategy: provider });
@@ -18,7 +17,6 @@ export default function useSocialAuth({provider, navigation}: SocialAuthProps) {
 
       if (createdSessionId) {
         setLoading(false);
-        navigation.replace('HomeNavigator')
         setActive!({ session: createdSessionId });
       }
     } catch (err) {
@@ -26,5 +24,5 @@ export default function useSocialAuth({provider, navigation}: SocialAuthProps) {
     }
   }, []);
 
-  return {onPress, loading};
+  return { onPress, loading };
 }

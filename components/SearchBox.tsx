@@ -11,6 +11,7 @@ type SearchBoxProps = {
   showFilters?: boolean;
   onPressFilter?: () => void;
   onChangeText?: (text: string) => void;
+  onSubmit?: (item: string) => void;
 };
 
 const SearchBox = ({
@@ -18,6 +19,7 @@ const SearchBox = ({
   showFilters = false,
   onPressFilter,
   onChangeText,
+  onSubmit = (text: string) => console.log(text),
 }: SearchBoxProps) => {
   const { theme, styles } = useStyles(styleSheet);
 
@@ -34,6 +36,7 @@ const SearchBox = ({
           style={styles.input}
           onChangeText={onChangeText}
           placeholderTextColor={theme.components.Input.placeholderColor}
+          onSubmitEditing={(e) => onSubmit(e.nativeEvent.text)}
         />
         {showFilters && (
           <Ionicons
@@ -50,6 +53,7 @@ const SearchBox = ({
 
 const styleSheet = createStyleSheet((theme) => ({
   container: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
