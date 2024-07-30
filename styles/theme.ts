@@ -121,6 +121,11 @@ export const lightTheme = {
     backdrop: {
       backgroundColor: 'rgba(0, 0, 0, 0.3)',
     },
+
+    tabBarIcons: {
+      active: colors.Neutral[900],
+      inactive: colors.Neutral[400],
+    },
   },
   margins: {},
 } as const;
@@ -245,6 +250,11 @@ export const darkTheme = {
 
     backdrop: {
       backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    },
+
+    tabBarIcons: {
+      active: colors.Neutral[100],
+      inactive: colors.Neutral[600],
     },
   },
   margins: {},

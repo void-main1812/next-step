@@ -1,3 +1,4 @@
+import { useAuth } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from '@react-navigation/native';
 import Button from 'components/Button';
@@ -6,7 +7,7 @@ import Input from 'components/Input';
 import Saperator from 'components/Saperator';
 import { SocialAuthButtonCompact } from 'components/SocialAuthButton';
 import useSignInPress from 'hooks/authHooks/useSignInPress';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -20,6 +21,13 @@ const Login = ({ navigation }: any) => {
   const [isPasswordSecured, setIsPasswordSecured] = useState<boolean>(true);
 
   const { onSignInPress, setEmailAddress, setPassword, isLoading } = useSignInPress(navigation);
+  const { isSignedIn } = useAuth();
+
+  useEffect(() => {
+    if (isSignedIn) {
+      navigation.navigate('HomeNavigator');
+    }
+  }, [isSignedIn]);
 
   return (
     <Container scrollable={false} statusBarColor="transparent">
@@ -59,7 +67,13 @@ const Login = ({ navigation }: any) => {
             onChangeText={(password) => setPassword(password)}
           />
           <Text style={styles.forgotPasswordContainer}>Forgot Password</Text>
-          <Button text="Login" size="full" rightIcon="arrow-forward" isLoading={isLoading} onPress={onSignInPress} />
+          <Button
+            text="Login"
+            size="full"
+            rightIcon="arrow-forward"
+            isLoading={isLoading}
+            onPress={onSignInPress}
+          />
           <View style={styles.createAccountContainer}>
             <Text style={typographyStyles(theme).body}>Don't have an Account?</Text>
             <Link to={'/SignUpOptions'}>
@@ -73,17 +87,14 @@ const Login = ({ navigation }: any) => {
         <Saperator text="or continue with" />
         <View style={styles.socialAuthButtonContainer}>
           <SocialAuthButtonCompact
-            navigation={navigation}
             provider="oauth_facebook"
             icon={require('../../../assets/socialIcons/Facebook.png')}
           />
           <SocialAuthButtonCompact
-            navigation={navigation}
             provider="oauth_github"
             icon={require('../../../assets/socialIcons/Github.png')}
           />
           <SocialAuthButtonCompact
-            navigation={navigation}
             provider="oauth_google"
             icon={require('../../../assets/socialIcons/Google.png')}
           />
