@@ -25,7 +25,7 @@ const Login = ({ navigation }: any) => {
 
   useEffect(() => {
     if (isSignedIn) {
-      navigation.navigate('HomeNavigator');
+      navigation.navigate('RootNavigator');
     }
   }, [isSignedIn]);
 

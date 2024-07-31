@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { User, createUser, deleteUser, getUser, updateUser } from 'api/user.api';
 
-
 export const useCreateUser = () => {
   const CreateMutation = useMutation({
     mutationFn: createUser,
@@ -19,6 +18,7 @@ export const useGetUser = (userId: string) => {
   const getUserQuery = useQuery({
     queryKey: ['user'],
     queryFn: () => getUser(userId),
+    retry: 1,
   });
 
   const userData = getUserQuery.data;

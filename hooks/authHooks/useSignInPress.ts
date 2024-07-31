@@ -10,7 +10,6 @@ export default function useSignInPress(navigation: any) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSignInPress = useCallback(async () => {
-
     setIsLoading(true);
 
     if (!isLoaded) {
@@ -26,7 +25,7 @@ export default function useSignInPress(navigation: any) {
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId });
         setIsLoading(false);
-        navigation.replace('HomeNavigator');
+        navigation.replace('RootNavigator');
         ToastAndroid.show('Login Successful', ToastAndroid.SHORT);
       } else {
         console.error(JSON.stringify(signInAttempt, null, 2));

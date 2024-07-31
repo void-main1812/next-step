@@ -31,14 +31,14 @@ const Onboarding = ({ navigation }: any) => {
     skills: skillList,
     location,
   };
-  
-  const { CreateMutation, status } = useCreateUser();
+
+  const { CreateMutation } = useCreateUser();
 
   const handleSave = () => {
     setIsLoading(true);
     CreateMutation.mutate(userData, {
       onSuccess: () => {
-        navigation.replace('HomeNavigator');
+        navigation.push('HomeNavigator');
       },
       onError: () => {
         setIsLoading(false);

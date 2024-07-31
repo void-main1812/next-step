@@ -1,10 +1,11 @@
+import { useAuth } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from '@react-navigation/native';
 import Button from 'components/Button';
 import Container from 'components/Container';
 import Saperator from 'components/Saperator';
 import { SocialAuthButtonWide } from 'components/SocialAuthButton';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -14,6 +15,14 @@ import { height, width } from 'utils/Size';
 
 const SignUpOptions = ({ navigation }: any) => {
   const { theme, styles } = useStyles(styleSheet);
+
+  const { isSignedIn } = useAuth();
+
+  useEffect(() => {
+    if (isSignedIn) {
+      navigation.navigate('RootNavigator');
+    }
+  }, [isSignedIn]);
 
   return (
     <Container statusBarColor="transparent">
@@ -41,9 +50,9 @@ const SignUpOptions = ({ navigation }: any) => {
             size="full"
           />
           <Saperator />
-          <SocialAuthButtonWide navigation={navigation} icon="logo-google" provider="oauth_google" text="Google" />
-          <SocialAuthButtonWide navigation={navigation} icon="logo-github" provider="oauth_github" text="Github" />
-          <SocialAuthButtonWide navigation={navigation} icon="logo-facebook" provider="oauth_facebook" text="Facebook" />
+          <SocialAuthButtonWide icon="logo-google" provider="oauth_google" text="Google" />
+          <SocialAuthButtonWide icon="logo-github" provider="oauth_github" text="Github" />
+          <SocialAuthButtonWide icon="logo-facebook" provider="oauth_facebook" text="Facebook" />
         </View>
         <View style={styles.loginNowContainer}>
           <Text style={typographyStyles(theme).body}>Already have an Account ?</Text>
