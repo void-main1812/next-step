@@ -1,11 +1,15 @@
 import { Ionicons } from '@expo/vector-icons';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import Saperator from 'components/Saperator';
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Pressable, Text, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
+import { RootStackParamList } from '~/(root)';
+import DialogModal from './DialogModal';
+import { useAuth } from '@clerk/clerk-expo';
 
 type contextMenuOptionProps = {
   onPress: () => void;
@@ -38,14 +42,41 @@ const ContextMenuOption = ({ onPress, color = 'normal', text, icon }: contextMen
 };
 
 const UserContextMenu = ({ isOpen, hide }: { isOpen: boolean; hide: () => void }) => {
-  const { theme, styles } = useStyles(styleSheet);
+  const { styles } = useStyles(styleSheet);
+
+  const { signOut } = useAuth();
+
+  const [logoutPressed, setLogoutPressed] = useState(false);
+
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const routeToEditProfile = () => {
+    navigation.navigate('EditProfile');
+  };
+
+  const toggleLogout = () => {
+    setLogoutPressed(!logoutPressed);
+  };
 
   return (
     <Modal transparent visible={isOpen} animationType="none" onRequestClose={hide}>
       <View style={styles.contextMenuContainer}>
-        <ContextMenuOption icon="person" text="Edit Profile" onPress={() => {}} />
+        <ContextMenuOption icon="person" text="Edit Profile" onPress={routeToEditProfile} />
         <Saperator />
-        <ContextMenuOption icon="log-out" text="Logout" color="danger" onPress={() => {}} />
+        <ContextMenuOption icon="log-out" text="Logout" color="danger" onPress={toggleLogout} />
+        <DialogModal
+          isVisible={logoutPressed}
+          hide={toggleLogout}
+          title="Confirm Logout"
+          alertType="danger"
+          alertString="You may loose your data"
+          buttonText="Logout"
+          onPrimaryButtonPress={signOut}
+          primaryButtonIcon="trash"
+          secondaryButtonText="Cancel"
+          onSecondaryButtonPress={toggleLogout}
+          primaryButtonSize="full"
+        />
       </View>
       <Pressable onPress={hide}>
         <View style={styles.touchOutside} />

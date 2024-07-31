@@ -5,6 +5,8 @@ import { UnistylesRuntime, createStyleSheet, useStyles } from 'react-native-unis
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
 import UserContextMenu from './UserContextMenu';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '~/(root)';
 
 type HeaderProps = {
   Name: string;
@@ -25,10 +27,16 @@ const Header = ({
 }: HeaderProps) => {
   const { theme, styles } = useStyles(stylesheet);
 
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
 
   const toggleContextMenu = () => {
     setIsContextMenuOpen(!isContextMenuOpen);
+  };
+
+  const handleBackPress = () => {
+    navigation.goBack();
   };
 
   const iconColor = theme.components.Header.iconColor;
@@ -36,7 +44,11 @@ const Header = ({
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerItemContainer}>
-        {ShowBackIcon && <Ionicons name={'arrow-back'} size={24} color={iconColor} />}
+        {ShowBackIcon && (
+          <Pressable onPress={handleBackPress}>
+            <Ionicons name={'arrow-back'} size={24} color={iconColor} />
+          </Pressable>
+        )}
         {showLogo && <Ionicons name={logo} size={30} color={iconColor} />}
         <Text style={typographyStyles(theme).heading_3}>{Name}</Text>
       </View>

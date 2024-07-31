@@ -91,6 +91,7 @@ const stylesheet = createStyleSheet((theme) => ({
       size: {
         full: {
           maxWidth: '100%',
+          flex: 1,
         },
         normal: {
           maxWidth: undefined,
