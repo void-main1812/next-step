@@ -124,7 +124,8 @@ const stylesheet = createStyleSheet((theme) => ({
     alignSelf: 'stretch',
   },
   ButtonContainer: {
-    alignSelf: 'stretch',
+    width: '100%',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     gap: spacing.height[4],
   },

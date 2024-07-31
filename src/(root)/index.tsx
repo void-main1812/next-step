@@ -14,10 +14,12 @@ import { height, width } from 'utils/Size';
 import Bookmarks from './Bookmarks';
 import HomeScreen from './home';
 import Onboarding from './Onboarding/Onboarding';
+import EditProfile from './EditProfile';
 
 export type RootStackParamList = {
   HomeNavigator: undefined;
   Onboarding: undefined;
+  EditProfile: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -120,6 +122,16 @@ const RootNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Onboarding" component={Onboarding} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerShown: true,
+          header(props) {
+            return <Header {...props} Name="Edit your Profile" ShowBackIcon showLogo={false} />;
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 };
