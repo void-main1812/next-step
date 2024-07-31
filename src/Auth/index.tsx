@@ -3,7 +3,7 @@ import React from 'react';
 import Login from './login';
 import SignUpOptions from './signup';
 import SignUp from './signup/SignUp';
-import Onboarding from './signup/Onboarding';
+import Onboarding from '../(root)/Onboarding/Onboarding';
 
 export type RootStackParamList = {
   Login: undefined;

@@ -21,7 +21,7 @@ export default function useOtpVerification({ navigation }: { navigation: any }) 
       if (completeSignUp.status === 'complete') {
         await setActive({ session: completeSignUp.createdSessionId });
         setIsLoading(false);
-        navigation.navigate('Onboarding');
+        navigation.replace('RootNavigator');
       } else {
         console.log('Verification failed');
       }

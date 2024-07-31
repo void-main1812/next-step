@@ -1,9 +1,10 @@
-import { View, Text } from 'react-native';
-import React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useState } from 'react';
+import { Pressable, Text, View } from 'react-native';
 import { UnistylesRuntime, createStyleSheet, useStyles } from 'react-native-unistyles';
-import { height, width } from 'utils/Size';
 import { typographyStyles } from 'styles/typography';
+import { height, width } from 'utils/Size';
+import UserContextMenu from './UserContextMenu';
 
 type HeaderProps = {
   Name: string;
@@ -24,6 +25,12 @@ const Header = ({
 }: HeaderProps) => {
   const { theme, styles } = useStyles(stylesheet);
 
+  const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+
+  const toggleContextMenu = () => {
+    setIsContextMenuOpen(!isContextMenuOpen);
+  };
+
   const iconColor = theme.components.Header.iconColor;
 
   return (
@@ -35,8 +42,13 @@ const Header = ({
       </View>
       <View style={styles.headerItemContainer}>
         {RightIcon && <Ionicons name={RightIcon} size={24} color={iconColor} />}
-        {ShowSettingsIcon && <Ionicons name={'settings'} size={24} color={iconColor} />}
+        {ShowSettingsIcon && (
+          <Pressable onPress={toggleContextMenu}>
+            <Ionicons name={'settings'} size={24} color={iconColor} />
+          </Pressable>
+        )}
       </View>
+      <UserContextMenu isOpen={isContextMenuOpen} hide={toggleContextMenu} />
     </View>
   );
 };

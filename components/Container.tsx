@@ -12,7 +12,12 @@ type containerProps = {
   statusBarHidden?: boolean;
 };
 
-const Container = ({ children, scrollable = false, statusBarColor, statusBarHidden = false }: containerProps) => {
+const Container = ({
+  children,
+  scrollable = false,
+  statusBarColor,
+  statusBarHidden = false,
+}: containerProps) => {
   const { styles, theme } = useStyles(stylesheet);
 
   return (

@@ -3,14 +3,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LoadingScreen from 'components/LoadingScreen';
 import { useFonts } from 'expo-font';
-import HomeNavigator from '~/(root)';
+import RootNavigator from '~/(root)';
 import AuthNavigator from '~/Auth';
 import Splash from '~/Splash';
 
 export type RootStackParamList = {
   Auth: undefined;
   Loading: undefined;
-  HomeNavigator: undefined;
+  RootNavigator: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -35,8 +35,8 @@ export default function RootStack() {
           <Stack.Screen options={{ headerShown: false }} name="Auth" component={AuthNavigator} />
           <Stack.Screen
             options={{ headerShown: false }}
-            name="HomeNavigator"
-            component={HomeNavigator}
+            name="RootNavigator"
+            component={RootNavigator}
           />
           <Stack.Screen options={{ headerShown: false }} name="Loading" component={Splash} />
         </Stack.Navigator>

@@ -16,7 +16,7 @@ const Splash = ({ navigation }: any) => {
   useEffect(() => {
     const navigateToHome = setTimeout(() => {
       if (userId && sessionId) {
-        navigation.replace('HomeNavigator');
+        navigation.replace('RootNavigator');
         return;
       }
       navigation.replace('Auth');

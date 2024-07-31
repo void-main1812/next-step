@@ -1,22 +1,25 @@
 import { useAuth, useUser } from '@clerk/clerk-react';
 import Button from 'components/Button';
 import Container from 'components/Container';
-import JobCard from 'components/JobCard';
 import SearchBox from 'components/SearchBox';
 import { JobCategories } from 'global/MockData';
+import { useGetUser } from 'hooks/queries/UserQueries';
 import React, { useEffect } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height, width } from 'utils/Size';
 import CategoriesChip from '../components/CategoriesChip';
+import DetailsRequiredMessage from '../components/DetailsRequiredMessage';
 
 const HomeScreen = ({ navigation }: any) => {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, userId } = useAuth();
   const { user } = useUser();
 
   const { theme, styles } = useStyles(styleSheet);
+
+  const { userData, status: userStatus } = useGetUser(userId!);
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -56,24 +59,10 @@ const HomeScreen = ({ navigation }: any) => {
         </View>
         <View style={styles.jobContainer}>
           <Text style={styles.sectionHeading}>Best Picks for You</Text>
-          <JobCard
-            jobId="job1"
-            companyName="Amazon"
-            jobTitle="Android Developer"
-            jobType="Full Time"
-            salary="250k"
-            location="Banglore, Karnataka, India"
-            companyLogo={require('../../../assets/AmazonIcon.png')}
-          />
-          <JobCard
-            jobId="job1"
-            companyName="Amazon"
-            jobTitle="Android Developer"
-            jobType="Full Time"
-            salary="250k"
-            location="Banglore, Karnataka, India"
-            companyLogo={require('../../../assets/AmazonIcon.png')}
-          />
+          {userStatus === 'pending' ? (
+            <ActivityIndicator size="large" color={theme.components.Text.heading_1} />
+          ) : null}
+          {userData === undefined && userStatus !== 'pending' && <DetailsRequiredMessage />}
         </View>
       </View>
     </Container>
@@ -111,7 +100,7 @@ const styleSheet = createStyleSheet((theme) => ({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'stretch',
+    alignItems: 'center',
     gap: spacing.height[4],
   },
 
