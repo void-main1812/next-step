@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import { spacing } from 'styles/spacing';
 import { typographyStyles } from 'styles/typography';
 import { height } from 'utils/Size';
 
@@ -40,9 +41,9 @@ const Onboarding = ({ navigation }: any) => {
       onSuccess: () => {
         navigation.push('HomeNavigator');
       },
-      onError: () => {
+      onError: (e) => {
         setIsLoading(false);
-        console.log('Error creating user');
+        console.log('Error creating user', e);
       },
     });
   };
@@ -140,6 +141,10 @@ const styleSheet = createStyleSheet((theme) => ({
   buttonContainer: {
     width: '100%',
     zIndex: -1,
+    position: 'absolute',
+    bottom: spacing.height[10],
+    right: spacing.height[6],
+    left: spacing.height[6],
   },
 
   skillHelpTextContainer: {

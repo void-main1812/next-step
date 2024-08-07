@@ -37,4 +37,4 @@ export const useDeleteBookmark = () => {
   const status = DeleteBookmarkMutation.status;
 
   return { DeleteBookmarkMutation, status };
-}
+};

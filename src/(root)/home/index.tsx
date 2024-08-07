@@ -1,9 +1,11 @@
 import { useAuth, useUser } from '@clerk/clerk-react';
 import Button from 'components/Button';
 import Container from 'components/Container';
+import JobCard from 'components/JobCard';
 import SearchBox from 'components/SearchBox';
 import { JobCategories } from 'global/MockData';
 import { useGetUser } from 'hooks/queries/UserQueries';
+import JobsData from 'mock/JobsData.json';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -28,7 +30,7 @@ const HomeScreen = ({ navigation }: any) => {
   }, [isSignedIn]);
 
   return (
-    <Container>
+    <Container scrollable>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <View>
@@ -63,6 +65,27 @@ const HomeScreen = ({ navigation }: any) => {
             <ActivityIndicator size="large" color={theme.components.Text.heading_1} />
           ) : null}
           {userData === undefined && userStatus !== 'pending' && <DetailsRequiredMessage />}
+          {JobsData ? (
+            <FlatList
+              data={JobsData}
+              scrollEnabled={false}
+              keyExtractor={(item, index) => index.toString()}
+              contentContainerStyle={{ paddingBottom: height(15), gap: spacing.height[5] }}
+              renderItem={({ item }) => (
+                <JobCard
+                  jobTitle={item.jobTitle}
+                  companyName={item.companyName}
+                  companyLogo="https://cdn.brandfetch.io/amazon.com/w/400/h/400"
+                  jobType={'Intern'}
+                  location={item.locationType}
+                  salary={item.salary}
+                  onPress={() => navigation.navigate('JobDetails', { id: item.id })}
+                  jobId={item.id}
+                  userId={userId!}
+                />
+              )}
+            />
+          ) : null}
         </View>
       </View>
     </Container>
