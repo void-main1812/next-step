@@ -15,11 +15,13 @@ import Bookmarks from './Bookmarks';
 import HomeScreen from './home';
 import Onboarding from './Onboarding/Onboarding';
 import EditProfile from './EditProfile';
+import JobDetails from './JobDetails';
 
 export type RootStackParamList = {
   HomeNavigator: undefined;
   Onboarding: undefined;
   EditProfile: undefined;
+  JobDetails: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -122,6 +124,7 @@ const RootNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Onboarding" component={Onboarding} options={{ headerShown: false }} />
+      <Stack.Screen name="JobDetails" component={JobDetails} options={{ headerShown: false }} />
       <Stack.Screen
         name="EditProfile"
         component={EditProfile}
@@ -149,8 +152,9 @@ const styleSheet = createStyleSheet((theme, UnistylesRuntime) => ({
     height: height(10),
     backgroundColor: theme.components.Statusbar.color,
     overflow: 'hidden',
-    elevation: UnistylesRuntime.themeName === 'light' ? 20 : 0,
-    shadowColor: theme.colors.Neutral[600],
+    elevation: 25,
+    shadowColor:
+      UnistylesRuntime.themeName === 'light' ? theme.colors.Neutral[600] : theme.colors.Black,
     borderColor: theme.components.Input.placeholderColor,
     borderWidth: 0.5,
   },

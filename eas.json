@@ -13,7 +13,7 @@
       },
       "env": {
         "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cmVhZHktYnVsbGZyb2ctMjYuY2xlcmsuYWNjb3VudHMuZGV2JA",
-        "EXPO_PUBLIC_API_URL": "https://next-step-backend.onrender.com"
+        "EXPO_PUBLIC_API_URL": "http://10.0.2.2:3000"
       }
     },
     "preview2": {
@@ -30,13 +30,13 @@
     "production": {
       "env": {
         "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cmVhZHktYnVsbGZyb2ctMjYuY2xlcmsuYWNjb3VudHMuZGV2JA",
-        "EXPO_PUBLIC_API_URL": "https://next-step-backend.onrender.com"
+        "EXPO_PUBLIC_API_URL": "http://10.0.2.2:3000"
       }
     },
     "test": {
       "env": {
         "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cmVhZHktYnVsbGZyb2ctMjYuY2xlcmsuYWNjb3VudHMuZGV2JA",
-        "EXPO_PUBLIC_API_URL": "https://next-step-backend.onrender.com"
+        "EXPO_PUBLIC_API_URL": "http://10.0.2.2:3000"
       }
     }
   },

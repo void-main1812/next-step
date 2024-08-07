@@ -28,7 +28,9 @@ export const useGetJobBySearch = ({
 
   const status = JobBySearch.status;
 
-  return { JobBySearch, status };
+  const jobData = JobBySearch.data;
+
+  return { jobData, status };
 };
 
 export const useGetJobById = (job_id: string) => {

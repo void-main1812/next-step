@@ -1,4 +1,4 @@
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, Pressable, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { typographyStyles } from 'styles/typography';
@@ -7,15 +7,22 @@ import { spacing } from 'styles/spacing';
 import { useImageColors } from 'hooks/useImageColors';
 import { Chips } from './Chips';
 import { Ionicons } from '@expo/vector-icons';
+import {
+  useCreateBookmark,
+  useDeleteBookmark,
+  useGetBookmarks,
+} from 'hooks/queries/BookmarkQueries';
 
 type jobCardDetails = {
   jobTitle: string;
   companyName: string;
   location: string;
-  salary: string;
+  salary?: string;
   jobType: string;
   companyLogo: any;
   jobId: string;
+  onPress?: () => void;
+  userId: string;
 };
 
 const ImageHeight = 50;
@@ -28,13 +35,35 @@ const JobCard = ({
   salary,
   jobType,
   companyLogo,
+  onPress,
   jobId,
+  userId,
 }: jobCardDetails) => {
   const { theme, styles } = useStyles(styleSheet);
 
   const { colors } = useImageColors(companyLogo);
 
+  const { CreateBookmarkMutation } = useCreateBookmark();
+  const { DeleteBookmarkMutation } = useDeleteBookmark();
+
   const [dominantColor, setDominantColor] = useState('');
+  const [isBookmark, setIsBookmark] = useState(false);
+
+  const toggleBookmark = () => {
+    if (isBookmark) {
+      DeleteBookmarkMutation.mutate({ userId, jobId });
+      setIsBookmark(false);
+    } else {
+      CreateBookmarkMutation.mutate({
+        userId,
+        jobId,
+        employer_logo: companyLogo,
+        employer_name: companyName,
+        job_title: jobTitle,
+      });
+      setIsBookmark(true);
+    }
+  };
 
   useEffect(() => {
     if (Platform.OS === 'ios') {
@@ -47,33 +76,39 @@ const JobCard = ({
   }, [Platform, colors, dominantColor]);
 
   return (
-    <View style={styles.jobCardContainer}>
-      <View style={styles.bookmarkContainer}>
-        <Ionicons name="bookmark-outline" size={24} color={theme.colors.Blue[500]} />
-      </View>
-      <View style={styles.cardHeader}>
-        <View
-          style={{
-            backgroundColor: dominantColor,
-            elevation: 10,
-            shadowColor: dominantColor,
-            borderRadius: spacing.height[2],
-            maxHeight: ImageHeight,
-            maxWidth: ImageWidth,
-          }}>
-          <Image source={companyLogo} style={styles.companyImage} contentFit="contain" />
+    <Pressable onPress={onPress}>
+      <View style={styles.jobCardContainer}>
+        <Pressable onPress={toggleBookmark} style={styles.bookmarkContainer}>
+          <Ionicons
+            name={isBookmark ? 'bookmark' : 'bookmark-outline'}
+            size={24}
+            color={theme.colors.Blue[500]}
+          />
+        </Pressable>
+        <View style={styles.cardHeader}>
+          <View
+            style={{
+              backgroundColor: dominantColor,
+              elevation: 10,
+              shadowColor: dominantColor,
+              borderRadius: spacing.height[2],
+              maxHeight: ImageHeight,
+              maxWidth: ImageWidth,
+            }}>
+            <Image source={{ uri: companyLogo }} style={styles.companyImage} contentFit="contain" />
+          </View>
+          <View style={styles.cardHeaderDetails}>
+            <Text style={typographyStyles(theme).heading_3}>{companyName}</Text>
+            <Text style={typographyStyles(theme).body_small}>{location}</Text>
+          </View>
         </View>
-        <View style={styles.cardHeaderDetails}>
-          <Text style={typographyStyles(theme).heading_3}>{companyName}</Text>
-          <Text style={typographyStyles(theme).body_small}>{location}</Text>
+        <Text style={typographyStyles(theme).heading_3}>{jobTitle}</Text>
+        <View style={styles.cardExtraDetails}>
+          <Chips chipText={jobType} />
+          <Chips chipText={`${salary}/year`} variant="favourable" icon="cash" />
         </View>
       </View>
-      <Text style={typographyStyles(theme).heading_3}>{jobTitle}</Text>
-      <View style={styles.cardExtraDetails}>
-        <Chips chipText={jobType} />
-        <Chips chipText={`${salary}/year`} variant="favourable" icon="cash" />
-      </View>
-    </View>
+    </Pressable>
   );
 };
 

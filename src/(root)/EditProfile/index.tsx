@@ -94,7 +94,7 @@ const styleSheet = createStyleSheet((theme) => ({
     ...typographyStyles(theme).special,
     width: '100%',
     padding: spacing.height[6],
-    borderRadius: spacing.height[4],
+    borderRadius: spacing.height[2],
     backgroundColor: theme.components.Input.backgroundColor,
   },
 
