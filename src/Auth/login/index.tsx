@@ -76,7 +76,7 @@ const Login = ({ navigation }: any) => {
           />
           <View style={styles.createAccountContainer}>
             <Text style={typographyStyles(theme).body}>Don't have an Account?</Text>
-            <Link to={'/SignUpOptions'}>
+            <Link to="/SignUpOptions">
               {' '}
               <Text style={[typographyStyles(theme).special, { textDecorationLine: 'underline' }]}>
                 Create One

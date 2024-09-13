@@ -25,15 +25,15 @@ export const searchJobFromQuery = async ({
 }: JobRequest) => {
   const options = {
     method: 'GET',
-    url: rapidApiUrl,
+    url: `${rapidApiUrl}/search`,
     params: {
-      query: query,
-      page: page,
-      num_pages: num_pages,
-      date_posted: date_posted,
-      remote_jobs_only: remote_jobs_only,
-      employment_types: employment_types,
-      job_titles: job_titles,
+      query,
+      page,
+      num_pages,
+      date_posted,
+      remote_jobs_only,
+      employment_types,
+      job_titles,
     },
     headers: {
       'x-rapidapi-key': rapidApiKey,
@@ -52,9 +52,10 @@ export const searchJobFromQuery = async ({
 export const getJobById = async (job_id: string) => {
   const options = {
     method: 'GET',
-    url: rapidApiUrl,
+    url: `${rapidApiUrl}/job-details`,
     params: {
-      job_id: job_id,
+      job_id,
+      extended_publisher_details: 'false',
     },
     headers: {
       'x-rapidapi-key': rapidApiKey,

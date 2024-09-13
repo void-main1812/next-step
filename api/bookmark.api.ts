@@ -18,11 +18,11 @@ export const createBookmark = async ({
   job_title,
 }: Bookmark): Promise<Bookmark> => {
   const result = await axios.post(`${API_URL}/api/bookmark/create`, {
-    userId: userId,
-    jobId: jobId,
-    employer_logo: employer_logo,
-    employer_name: employer_name,
-    job_title: job_title,
+    userId,
+    jobId,
+    employer_logo,
+    employer_name,
+    job_title,
   });
   return result.data;
 };
@@ -33,5 +33,5 @@ export const getAllBookmark = async (userId: string): Promise<Bookmark[]> => {
 };
 
 export const deleteBookmark = async ({ userId, jobId }: Bookmark): Promise<void> => {
-  await axios.delete(`${API_URL}/api/bookmark/delete`, { data: { userId: userId, jobId: jobId } });
+  await axios.delete(`${API_URL}/api/bookmark/delete`, { data: { userId, jobId } });
 };
